@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 from pathlib import Path
@@ -89,8 +90,10 @@ def iter_yang_chunks(
         chunks = chunk_text(text, max_chars=chunk_chars)
         for idx, chunk in enumerate(chunks):
             payload = {
+                "id": count,
                 "source_path": str(path),
                 "chunk_index": idx,
+                "chunk_chars": chunk_chars,
                 "text": chunk,
             }
             yield chunk, payload
@@ -110,6 +113,8 @@ def iter_catalog_entries(
                 return
             row = json.loads(line)
             payload = dict(row)
+            if payload.get("id") is None:
+                payload["id"] = i
             text = row.get("search_text") or ""
             yield text, payload
 
@@ -147,24 +152,57 @@ def ingest_stream(
     embedding_model: str,
     embed_batch_size: int,
     upsert_batch_size: int,
+    resume: bool = True,
 ) -> int:
     total = 0
+    skipped = 0
     for batch in batch_iterable(text_payloads, embed_batch_size):
-        texts = [item[0] for item in batch]
-        payloads = [item[1] for item in batch]
+        texts: List[str] = []
+        payloads: List[dict] = []
+        point_ids: List[models.ExtendedPointId] = []
+        for text, payload in batch:
+            point_id = payload.get("id")
+            if point_id is None:
+                raw = json.dumps(payload, sort_keys=True, ensure_ascii=True, separators=(",", ":"))
+                point_id = hashlib.sha1(raw.encode("utf-8")).hexdigest()
+                payload["id"] = point_id
+            texts.append(text)
+            payloads.append(payload)
+            point_ids.append(point_id)
+
+        if resume:
+            existing = qdrant.retrieve(
+                collection_name=collection,
+                ids=point_ids,
+                with_payload=False,
+                with_vectors=False,
+            )
+            existing_ids = {record.id for record in existing}
+            if existing_ids:
+                filtered = [
+                    (text, payload, pid)
+                    for text, payload, pid in zip(texts, payloads, point_ids)
+                    if pid not in existing_ids
+                ]
+                skipped += len(existing_ids)
+                if not filtered:
+                    continue
+                texts = [item[0] for item in filtered]
+                payloads = [item[1] for item in filtered]
+                point_ids = [item[2] for item in filtered]
+
         embeddings = embed_texts(openai_client, texts=texts, model=embedding_model)
 
         points: List[models.PointStruct] = []
-        for i, (payload, vector) in enumerate(zip(payloads, embeddings)):
-            point_id = payload.get("id")
-            if point_id is None:
-                point_id = total + i
+        for payload, vector, point_id in zip(payloads, embeddings, point_ids):
             points.append(models.PointStruct(id=point_id, vector=vector, payload=payload))
 
         for chunk in batch_iterable(points, upsert_batch_size):
             qdrant.upsert(collection_name=collection, points=chunk, wait=True)
             total += len(chunk)
             logger.info("Upserted %d points", total)
+    if resume and skipped:
+        logger.info("Skipped %d already-ingested points", skipped)
     return total
 
 
@@ -173,4 +211,3 @@ def preview_points(client: QdrantClient, collection: str, limit: int = 5) -> Non
     print(f"Previewing {len(points)} points from '{collection}':")
     for p in points:
         print(f"- id={p.id} keys={list((p.payload or {}).keys())}")
-

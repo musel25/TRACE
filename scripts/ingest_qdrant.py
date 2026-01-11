@@ -8,7 +8,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from openai import OpenAI
 
-from trace.embeddings.qdrant_ingest import (
+from tracerag.embeddings.qdrant_ingest import (
     build_qdrant_client,
     distance_from_str,
     ensure_collection,
@@ -44,7 +44,14 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--upsert-batch-size", type=int, default=128, help="Batch size for Qdrant upserts.")
     p.add_argument("--preview", action="store_true", help="Scroll and preview stored points.")
+    p.add_argument(
+        "--no-resume",
+        action="store_false",
+        dest="resume",
+        help="Re-embed from scratch instead of skipping already ingested points.",
+    )
     p.add_argument("-v", "--verbose", action="count", default=0, help="Increase verbosity (-v, -vv).")
+    p.set_defaults(resume=True)
 
     sub = p.add_subparsers(dest="mode", required=True)
 
@@ -132,6 +139,7 @@ def main() -> int:
         embedding_model=args.embedding_model,
         embed_batch_size=args.embed_batch_size,
         upsert_batch_size=args.upsert_batch_size,
+        resume=args.resume,
     )
 
     print(f"Upserted {total} points into '{collection}'.")

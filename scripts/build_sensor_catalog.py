@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from trace.catalog.builder import build_catalog, setup_logging
+from tracerag.catalog.builder import build_catalog, setup_logging
 
 
 if __name__ == "__main__":

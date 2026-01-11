@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from trace.yang.importer import (
+from tracerag.yang.importer import (
     DEFAULT_OUTPUT_ROOT,
     DEFAULT_REPO_URL,
     DEFAULT_TMP_DIR,
