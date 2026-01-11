@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.11.8"
 dependencies = [
     "ipykernel>=7.1.0",
+    "pyang>=2.7.1",
     "trl[judges]>=0.26.2",
 ]
