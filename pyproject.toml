@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.11.8"
 dependencies = [
     "ipykernel>=7.1.0",
+    "openai>=2.15.0",
     "pyang>=2.7.1",
+    "qdrant-client>=1.16.2",
     "trl[judges]>=0.26.2",
 ]

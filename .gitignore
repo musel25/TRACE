@@ -1,2 +1,11 @@
 .venv
-data
+data/
+.env
+
+# secrets
+.env
+.env.*
+**/.env
+*.key
+*.pem
+secrets.*
