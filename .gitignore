@@ -1,6 +1,5 @@
 .venv
 /data
-.env
 
 # secrets
 .env

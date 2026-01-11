@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 build_sensor_catalog.py
 
@@ -34,7 +33,7 @@ Each line is a dict like:
 
 Usage
 -----
-python src/data/2_build_sensor_catalog.py \
+python scripts/build_sensor_catalog.py \
   --base-dir data/yang/vendor/cisco/xr/701 \
   --out-json data/sensor_catalog.jsonl \
   --min-leaves 2 \
@@ -43,16 +42,14 @@ python src/data/2_build_sensor_catalog.py \
 Notes
 -----
 - Requires: pyang
-- This script is intentionally "pure extraction + JSONL write". Any plotting/stats
+- This module is intentionally "pure extraction + JSONL write". Any plotting/stats
   are behind an optional flag.
 """
 
 from __future__ import annotations
 
-import argparse
 import json
 import logging
-import time
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
@@ -115,6 +112,7 @@ def load_modules(base_dir: Path) -> Tuple[context.Context, List[statements.State
     # still working during this pause.
     try:
         print("Validating parsed modules with pyang (this can take a while)...", flush=True)
+        ctx.validate()
     except Exception as e:
         # Validation can be noisy but still useful; we allow continuing if parse succeeded.
         logger.warning("pyang ctx.validate() raised: %s", e)
@@ -453,38 +451,20 @@ def compute_text_length_stats(rows: List[Dict]) -> Dict[str, float]:
     }
 
 
-# --------------------------------- Main --------------------------------------
+# --------------------------------- Orchestration -----------------------------
 
 
-def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Build XR telemetry sensor catalog JSONL from YANG modules.")
-    p.add_argument("--base-dir", type=Path, default=Path("data/yang/vendor/cisco/xr/701"),
-                   help="Folder containing YANG files (recursively). Default: data/yang/vendor/cisco/xr/701")
-    p.add_argument("--out-json", type=Path, default=Path("data/sensor_catalog.jsonl"),
-                   help="Output JSONL path. Default: data/sensor_catalog.jsonl")
-    p.add_argument("--min-leaves", type=int, default=2, help="Keep subtrees with at least this many leaf names. Default: 2")
-    p.add_argument("--max-depth", type=int, default=None, help="Optional recursion depth limit.")
-    # mutually exclusive flags to allow default = oper-only True, with an explicit --no-oper to disable
-    group = p.add_mutually_exclusive_group()
-    group.add_argument("--oper-only", dest="oper_only", action="store_true",
-                       help="Only include operational modules (heuristic). (default)")
-    group.add_argument("--no-oper", dest="oper_only", action="store_false",
-                       help="Do not restrict to operational modules.")
-    p.set_defaults(oper_only=True)
-
-    p.add_argument("--max-leaves-in-text", type=int, default=30, help="Leaf names included in search_text.")
-    p.add_argument("--max-text-chars", type=int, default=2000, help="Hard cap for search_text length.")
-    p.add_argument("--stats", action="store_true", help="Print search_text length stats.")
-    p.add_argument("-v", "--verbose", action="count", default=0, help="Increase verbosity (-v, -vv).")
-    return p.parse_args()
-
-def main() -> int:
-    args = parse_args()
-    setup_logging(args.verbose)
-
-    base_dir: Path = args.base_dir.resolve()
-    out_json: Path = args.out_json.resolve()
-
+def build_catalog(
+    *,
+    base_dir: Path,
+    out_json: Path,
+    min_leaves: int = 2,
+    max_depth: Optional[int] = None,
+    oper_only: bool = True,
+    max_leaves_in_text: int = 30,
+    max_text_chars: int = 2000,
+    stats: bool = False,
+) -> int:
     logger.info("YANG base: %s", base_dir)
     logger.info("Output JSONL: %s", out_json)
 
@@ -497,7 +477,7 @@ def main() -> int:
     # Filter to operational modules if requested. This can be slow for many
     # modules (module_source_ref may access file metadata), so show progress
     # while we check each module.
-    if args.oper_only:
+    if oper_only:
         modules_used: List[statements.Statement] = []
         print(f"Filtering {len(modules)} parsed modules for operational ones...")
         for i, m in enumerate(modules, 1):
@@ -508,7 +488,10 @@ def main() -> int:
                 logger.debug("Error checking oper-only for module %s: %s", module_source_ref(m), e)
 
             if i % 100 == 0 or i == len(modules):
-                print(f"  checked {i}/{len(modules)} modules, found {len(modules_used)} operational", flush=True)
+                print(
+                    f"  checked {i}/{len(modules)} modules, found {len(modules_used)} operational",
+                    flush=True,
+                )
     else:
         modules_used = modules
 
@@ -520,20 +503,20 @@ def main() -> int:
 
     all_rows: List[Dict] = []
     for idx, mod in enumerate(modules_used, 1):
-        mod_name = str(getattr(mod, 'arg', '') or '')
+        mod_name = str(getattr(mod, "arg", "") or "")
         if len(modules_used) <= 50 or idx % 10 == 0 or idx == len(modules_used):
             # Print sparse progress for large sets, or every module for small sets
             print(f"  [{idx}/{len(modules_used)}] module: {mod_name}", flush=True)
 
-        rows = traverse_module(mod, min_leaves=args.min_leaves, max_depth=args.max_depth)
+        rows = traverse_module(mod, min_leaves=min_leaves, max_depth=max_depth)
         all_rows.extend(rows)
 
     logger.info("Total catalog entries: %d", len(all_rows))
 
     all_rows = prepare_yang_entries(
         all_rows,
-        max_leaves_in_text=args.max_leaves_in_text,
-        max_text_chars=args.max_text_chars,
+        max_leaves_in_text=max_leaves_in_text,
+        max_text_chars=max_text_chars,
     )
 
     print(f"Writing {len(all_rows)} catalog entries to: {out_json} ...")
@@ -541,7 +524,7 @@ def main() -> int:
     print(f"Wrote catalog to: {out_json}")
     print(f"Entries: {len(all_rows)}")
 
-    if args.stats:
+    if stats:
         s = compute_text_length_stats(all_rows)
         print("search_text length stats:")
         print(
@@ -553,7 +536,3 @@ def main() -> int:
         print(f"protocol_tag == None: {none_count} / {len(all_rows)}")
 
     return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
