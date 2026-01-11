@@ -37,6 +37,12 @@ uv run python scripts/build_sensor_catalog.py --min-leaves 3 --stats
 
 ### Ingest embeddings into Qdrant
 
+First activate qdrant: 
+
+docker run -p 6333:6333 -p 6334:6334 \
+  -v $(pwd)/qdrant_storage:/qdrant/storage:z \
+  qdrant/qdrant:latest
+
 `scripts/ingest_qdrant.py` embeds and upserts either:
 - fixed-window chunks from raw YANG files (`raw`, default-style naive chunking)
 - or `sensor_catalog.jsonl` entries (`catalog`)
