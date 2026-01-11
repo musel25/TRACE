@@ -12,13 +12,11 @@ from openai import OpenAI
 from qdrant_client import QdrantClient
 from qdrant_client.models import FieldCondition, Filter, MatchValue
 
-from tracerag.rag import (
+from tracerag.rag import build_context_text, build_openai_chat_fn, naive_rag
+from tracerag.retrieval import (
     QdrantRetrievalConfig,
-    build_context_text,
-    build_openai_chat_fn,
     build_openai_embedding_fn,
     build_qdrant_retriever,
-    naive_rag,
 )
 
 

@@ -1,29 +1,40 @@
+#!/usr/bin/env python3
 """
 build_sensor_catalog.py
 
-Build a JSONL "sensor catalog" from Cisco IOS XR YANG modules (pyang).
+Build a JSONL sensor catalog from Cisco IOS XR YANG modules (pyang).
 
-What it does
-------------
-1) Recursively loads all *.yang files under a base directory with pyang.
-2) (Optionally) filters to operational models (e.g., *-oper.yang or /oper/ in path).
-3) Traverses each module to collect container/list subtrees that have >= MIN_LEAVES
-   distinct leaf/leaf-list fields.
-4) Adds heuristic semantic tags:
-   - protocol_tag (bgp/ospf/isis/mpls/ldp/...)
-   - category tags (neighbors, state, stats, ...)
-5) Builds a compact "search_text" field for embedding/retrieval.
-6) Writes entries as JSON Lines (one JSON object per line).
+Why this version is better
+-------------------------
+1) Much better "domain/protocol" tagging:
+   - Classifies primarily by MODULE FAMILY (e.g., ipv4-bgp-oper => bgp)
+   - Avoids false positives like infra-xtc-oper paths containing ".../bgp"
+2) Faster traversal:
+   - Memoizes subtree leaf sets to avoid repeated O(n^2) scanning
+3) Adds metadata useful for deterministic filtering:
+   - module_family, prefix, namespace, revision
+4) Produces debug-friendly fields:
+   - domain_confidence, domain_reasons
 
-Output schema
--------------
-Each line is a dict like:
+Output schema (superset of your current one)
+--------------------------------------------
 {
   "id": int,
   "module": str,
+  "module_family": str,
+  "prefix": str | null,
+  "namespace": str | null,
+  "revision": str | null,
+
   "path": str,
   "kind": "container" | "list",
-  "protocol_tag": str | null,
+  "key_leaves": list[str],
+
+  "protocol_tag": str | null,      # kept for backward compatibility
+  "domain": str | null,            # recommended new field
+  "domain_confidence": float,      # 0..1
+  "domain_reasons": list[str],     # why we tagged it that way
+
   "category": list[str],
   "leaf_names": list[str],
   "leaf_count": int,
@@ -37,19 +48,21 @@ python scripts/build_sensor_catalog.py \
   --base-dir data/yang/vendor/cisco/xr/701 \
   --out-json data/sensor_catalog.jsonl \
   --min-leaves 2 \
-  --oper-only
+  --oper-only \
+  -v
 
 Notes
 -----
 - Requires: pyang
-- This module is intentionally "pure extraction + JSONL write". Any plotting/stats
-  are behind an optional flag.
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import logging
+import re
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
@@ -57,64 +70,42 @@ from pyang import context, repository, statements
 
 # ----------------------------- Logging ----------------------------------------
 
+logger = logging.getLogger(__name__)
+
 
 def setup_logging(verbosity: int) -> None:
-    """
-    verbosity: 0 -> WARNING, 1 -> INFO, 2+ -> DEBUG
-    """
     level = logging.WARNING if verbosity <= 0 else (logging.INFO if verbosity == 1 else logging.DEBUG)
-    logging.basicConfig(
-        level=level,
-        format="%(levelname)s: %(message)s",
-    )
+    logging.basicConfig(level=level, format="%(levelname)s: %(message)s")
 
-
-logger = logging.getLogger(__name__)
 
 # ----------------------------- YANG Loading -----------------------------------
 
-
 def load_modules(base_dir: Path) -> Tuple[context.Context, List[statements.Statement]]:
-    """
-    Parse all .yang files under base_dir with pyang.
-
-    Returns:
-      (ctx, modules)
-      - ctx: pyang Context after validation
-      - modules: list of parsed module statements
-    """
     repo = repository.FileRepository(str(base_dir))
     ctx = context.Context(repo)
 
     modules: List[statements.Statement] = []
     yang_files = sorted(base_dir.rglob("*.yang"))
     logger.info("Found %d .yang files under %s", len(yang_files), base_dir)
-    # Inform the user we're starting a possibly long parse step
     print(f"Parsing {len(yang_files)} .yang files under {base_dir} ...")
 
     for i, p in enumerate(yang_files, 1):
         try:
             text = p.read_text(encoding="utf-8", errors="ignore")
             mod = ctx.add_module(p.name, text)
-            if mod is not None:
+            if mod is not None and getattr(mod, "keyword", None) == "module":
                 modules.append(mod)
         except Exception as e:
             logger.warning("Failed to parse %s: %s", p, e)
 
-        # Periodic progress update to stdout so the user knows we're working
         if i % 50 == 0 or i == len(yang_files):
             print(f"  parsed {i}/{len(yang_files)} files", flush=True)
-    # newline after progress
     print("", flush=True)
 
-    # pyang ctx.validate() can be expensive for large repositories. Print a
-    # visible message and time the operation so the user knows the script is
-    # still working during this pause.
     try:
         print("Validating parsed modules with pyang (this can take a while)...", flush=True)
         ctx.validate()
     except Exception as e:
-        # Validation can be noisy but still useful; we allow continuing if parse succeeded.
         logger.warning("pyang ctx.validate() raised: %s", e)
         print(f"pyang validation raised an exception: {e}", flush=True)
 
@@ -122,9 +113,6 @@ def load_modules(base_dir: Path) -> Tuple[context.Context, List[statements.State
 
 
 def module_source_ref(mod: statements.Statement) -> str:
-    """
-    Best-effort source reference string for a module, used for filtering.
-    """
     try:
         if mod.pos is not None and mod.pos.ref:
             return str(mod.pos.ref)
@@ -134,23 +122,20 @@ def module_source_ref(mod: statements.Statement) -> str:
 
 
 def is_operational_module(mod: statements.Statement) -> bool:
-    """
-    Heuristic: focus on operational models for telemetry.
-    - filenames ending in "-oper.yang"
-    - or paths containing "/oper/"
-    """
-    ref = module_source_ref(mod)
-    r = ref.replace("\\", "/")
-    return ("-oper.yang" in r) or ("/oper/" in r)
+    ref = module_source_ref(mod).replace("\\", "/").lower()
+    name = str(getattr(mod, "arg", "") or "").lower()
+    # Common IOS XR op naming: *-oper.yang
+    if "-oper.yang" in ref or name.endswith("-oper"):
+        return True
+    # Some trees use /oper/ in repo layout
+    if "/oper/" in ref:
+        return True
+    return False
 
 
 # -------------------------- Safe Tree Walk Helpers ----------------------------
 
-
 def iter_children(stmt: statements.Statement) -> Sequence[statements.Statement]:
-    """
-    Safe iterator over data children (i_children may not exist on leaves).
-    """
     ch = getattr(stmt, "i_children", None)
     return ch if ch is not None else ()
 
@@ -163,120 +148,163 @@ def is_leaf(stmt: statements.Statement) -> bool:
     return stmt.keyword in ("leaf", "leaf-list")
 
 
-def collect_leaf_names(stmt: statements.Statement) -> List[str]:
-    """
-    Collect distinct leaf/leaf-list names under a subtree.
-    """
-    names: set[str] = set()
+# ----------------------------- Metadata ---------------------------------------
 
-    def _walk(s: statements.Statement) -> None:
-        if is_leaf(s):
-            if s.arg:
-                names.add(str(s.arg))
-            return
-        for ch in iter_children(s):
-            _walk(ch)
-
-    _walk(stmt)
-    return sorted(names)
-
-
-# --------------------------- Semantic Tagging ---------------------------------
-
-
-def guess_protocol_tag(module_name: str, path: str) -> Optional[str]:
-    """
-    Heuristic mapping from module/path to protocol tag.
-    """
-    s = (module_name + ":" + path).lower()
-
-    mapping = [
-        ("bgp", "bgp"),
-        ("ospf", "ospf"),
-        ("isis", "isis"),
-        ("mpls", "mpls"),
-        ("ldp", "ldp"),
-        ("pim", "multicast"),
-        ("igmp", "multicast"),
-        ("rib", "routing"),
-        ("route", "routing"),
-        ("ifmgr", "interfaces"),
-        ("ipv4-if", "interfaces"),
-        ("ipv6-if", "interfaces"),
-        ("interface", "interfaces"),
-        ("qos", "qos"),
-        ("acl", "acl"),
-        ("infra", "platform"),
-        ("platform", "platform"),
-        ("bfd", "bfd"),
-        ("tunnel", "tunnel"),
-        ("ip-ma", "tunnel"),
-        ("gre", "tunnel"),
-        ("l2tun", "tunnel"),
-        ("vxlan", "tunnel"),
-        ("ethernet", "l2"),
-        ("l2vpn", "l2"),
-        ("bridge-domain", "l2"),
-        ("mac", "l2"),
-        ("arp", "neighbor"),
-        ("neighbor", "neighbor"),
-        ("ntp", "timing"),
-        ("ptp", "timing"),
-        ("clock", "timing"),
-        ("aaa", "security"),
-        ("crypto", "security"),
-        ("ssh", "security"),
-        ("telemetry", "telemetry"),
-        ("mdt", "telemetry"),
-        ("process", "system"),
-        ("memory", "system"),
-        ("cpu", "system"),
-    ]
-
-    for key, tag in mapping:
-        if key in s:
-            return tag
+def get_first_arg(stmt: statements.Statement, keyword: str) -> Optional[str]:
+    try:
+        sub = stmt.search_one(keyword)
+        if sub is not None and getattr(sub, "arg", None):
+            return str(sub.arg).strip()
+    except Exception:
+        return None
     return None
 
 
-def guess_categories(path: str, leaf_names: List[str]) -> List[str]:
+def extract_module_meta(mod: statements.Statement) -> Dict[str, Optional[str]]:
+    prefix = get_first_arg(mod, "prefix")
+    namespace = get_first_arg(mod, "namespace")
+
+    # revision is a bit special: there can be multiple, take the latest (lexicographically works for YYYY-MM-DD)
+    revs: List[str] = []
+    try:
+        for r in getattr(mod, "substmts", []) or []:
+            if getattr(r, "keyword", None) == "revision" and getattr(r, "arg", None):
+                revs.append(str(r.arg).strip())
+    except Exception:
+        pass
+    revision = sorted(revs)[-1] if revs else None
+
+    return {"prefix": prefix, "namespace": namespace, "revision": revision}
+
+
+def module_family(module_name: str) -> str:
     """
-    Heuristic 'what is this subtree about?' tags.
+    Compact family string used for filtering/routing.
+    Examples:
+      Cisco-IOS-XR-ipv4-bgp-oper -> ipv4-bgp-oper
+      Cisco-IOS-XR-infra-xtc-oper -> infra-xtc-oper
     """
+    m = module_name.strip()
+    m = m.replace("Cisco-IOS-XR-", "")
+    return m.lower()
+
+
+# --------------------------- Domain Tagging -----------------------------------
+# The goal: avoid "bgp appears somewhere" => domain=bgp.
+# Rule: module family dominates. Path tokens are a fallback.
+
+_DOMAIN_RULES = [
+    # Strong protocol modules
+    (re.compile(r"(?:^|-)ipv4-bgp-oper$"), "bgp", 1.00, "module_family=ipv4-bgp-oper"),
+    (re.compile(r"(?:^|-)ipv6-bgp-oper$"), "bgp", 1.00, "module_family=ipv6-bgp-oper"),
+    (re.compile(r"(?:^|-)bgp-oper$"), "bgp", 0.95, "module_family=bgp-oper"),
+    (re.compile(r"(?:^|-)ospf(?:v3)?-oper$"), "ospf", 1.00, "module_family=ospf-oper"),
+    (re.compile(r"(?:^|-)isis-?oper$"), "isis", 1.00, "module_family=isis-oper"),
+    (re.compile(r"(?:^|-)mpls-.*-oper$"), "mpls", 0.95, "module_family=mpls-*"),
+    (re.compile(r"(?:^|-)ldp-?oper$"), "ldp", 1.00, "module_family=ldp-oper"),
+    (re.compile(r"(?:^|-)bfd-?oper$"), "bfd", 1.00, "module_family=bfd-oper"),
+    (re.compile(r"(?:^|-)ifmgr-?oper$"), "interfaces", 1.00, "module_family=ifmgr-oper"),
+    (re.compile(r"(?:^|-)ipv[46]-if-?oper$"), "interfaces", 1.00, "module_family=ipv*-if-oper"),
+    (re.compile(r"(?:^|-)qos-?oper$"), "qos", 1.00, "module_family=qos-oper"),
+    (re.compile(r"(?:^|-)acl-?oper$"), "acl", 1.00, "module_family=acl-oper"),
+    (re.compile(r"(?:^|-)ethernet-span-?oper$"), "span", 1.00, "module_family=ethernet-span-oper"),
+
+    # PCE / XTC / TE: must NOT become "bgp" just because subpaths mention it
+    (re.compile(r"(?:^|-)infra-xtc-?oper$"), "pce", 1.00, "module_family=infra-xtc-oper"),
+    (re.compile(r"(?:^|-)pce-.*-oper$"), "pce", 0.95, "module_family=pce-*"),
+    (re.compile(r"(?:^|-)segment-routing-.*-oper$"), "sr", 0.95, "module_family=segment-routing-*"),
+]
+
+_PATH_FALLBACK = [
+    (re.compile(r"(?:^|/|:)bgp(?:/|$)"), "bgp"),
+    (re.compile(r"(?:^|/|:)ospf(?:/|$)"), "ospf"),
+    (re.compile(r"(?:^|/|:)isis(?:/|$)"), "isis"),
+    (re.compile(r"(?:^|/|:)mpls(?:/|$)"), "mpls"),
+    (re.compile(r"(?:^|/|:)ldp(?:/|$)"), "ldp"),
+    (re.compile(r"(?:^|/|:)interface(?:/|$)"), "interfaces"),
+]
+
+
+def classify_domain(module_name: str, path: str) -> Tuple[Optional[str], float, List[str]]:
+    mf = module_family(module_name)
+    reasons: List[str] = []
+
+    for rx, dom, conf, reason in _DOMAIN_RULES:
+        if rx.search(mf):
+            reasons.append(reason)
+            return dom, conf, reasons
+
+    # fallback: path token match (lower confidence)
+    p = path.lower()
+    for rx, dom in _PATH_FALLBACK:
+        if rx.search(p):
+            reasons.append("path_fallback_match")
+            return dom, 0.55, reasons
+
+    return None, 0.0, reasons
+
+
+def protocol_tag_compat(domain: Optional[str]) -> Optional[str]:
+    """
+    Keep your 'protocol_tag' field, but make it consistent and less noisy.
+    """
+    if domain is None:
+        return None
+    # Backward-compat mapping (your earlier tag set)
+    mapping = {
+        "bgp": "bgp",
+        "ospf": "ospf",
+        "isis": "isis",
+        "mpls": "mpls",
+        "ldp": "ldp",
+        "bfd": "bfd",
+        "interfaces": "interfaces",
+        "acl": "acl",
+        "qos": "qos",
+        "pce": "pce",
+        "sr": "sr",
+        "span": "l2",  # you used l2 for ethernet-span
+    }
+    return mapping.get(domain, domain)
+
+
+# --------------------------- Category Tagging ---------------------------------
+
+_CATEGORY_RULES = [
+    # (pattern, tag)
+    (re.compile(r"(?:^|/|:)neighbor(s)?(?:/|$)"), "neighbors"),
+    (re.compile(r"(?:^|/|:)peer(s)?(?:/|$)"), "neighbors"),
+    (re.compile(r"(?:^|/|:)session(s)?(?:/|$)"), "sessions"),
+    (re.compile(r"(?:^|/|:)process(?:/|$)"), "process"),
+    (re.compile(r"(?:^|/|:)statistics|counter|counters|stats"), "stats"),
+    (re.compile(r"(?:^|/|:)route(s)?|rib|prefix(es)?"), "routes"),
+    (re.compile(r"(?:^|/|:)interface|intf"), "interfaces"),
+    (re.compile(r"(?:^|/|:)topology|node(s)?|link(s)?"), "topology"),
+    (re.compile(r"(?:^|/|:)policy|route-policy"), "policy"),
+    (re.compile(r"(?:^|/|:)alarm|event"), "events"),
+]
+
+
+def guess_categories(path: str, leaf_names: List[str], description: str) -> List[str]:
     tags: set[str] = set()
     p = path.lower()
-    leaves_str = " ".join(leaf_names).lower()
+    leaves = " ".join(leaf_names).lower()
+    desc = (description or "").lower()
 
-    def add_if(substr: str, tag: str, haystack: str) -> None:
-        if substr in haystack:
+    hay = f"{p} {desc} {leaves}"
+
+    for rx, tag in _CATEGORY_RULES:
+        if rx.search(hay):
             tags.add(tag)
 
-    # Path-based hints
-    add_if("neighbor", "neighbors", p)
-    add_if("peer", "neighbors", p)
-    add_if("process", "process", p)
-    add_if("session", "sessions", p)
-    add_if("interface", "interfaces", p)
-    add_if("intf", "interfaces", p)
-    add_if("rib", "routes", p)
-    add_if("route", "routes", p)
-    add_if("prefix", "prefixes", p)
-    add_if("traffic", "traffic", p)
-    add_if("counter", "stats", p)
-    add_if("alarm", "alarms", p)
-    add_if("event", "events", p)
-    add_if("tunnel", "tunnels", p)
-    add_if("bfd", "bfd", p)
-
-    # Leaf-name-based hints
-    if any(x in leaves_str for x in ["state", "status", "up", "down", "admin-state", "oper-state"]):
+    # State-ish / stats-ish leaf clues
+    if re.search(r"\b(state|status|admin-state|oper-state|up|down)\b", hay):
         tags.add("state")
-    if any(x in leaves_str for x in ["packets", "octets", "bytes", "drops", "errors", "counter"]):
+    if re.search(r"\b(packets|octets|bytes|drops|errors|counter)\b", hay):
         tags.add("stats")
-    if any(x in leaves_str for x in ["utilization", "usage", "percent"]):
+    if re.search(r"\b(utilization|usage|percent|rate|bps|pps)\b", hay):
         tags.add("utilization")
 
-    # Fallback
     if not tags:
         tags.add("state")
 
@@ -285,13 +313,23 @@ def guess_categories(path: str, leaf_names: List[str]) -> List[str]:
 
 # -------------------- Traversal & Catalog Building ----------------------------
 
-
 def build_path(module_name: str, ancestors: List[str], current: str) -> str:
-    """
-    Canonical XR sensor path: Module:elem1/elem2/...
-    """
     elems = ancestors + [current]
     return f"{module_name}:{'/'.join(elems)}"
+
+
+def list_keys(stmt: statements.Statement) -> List[str]:
+    """
+    Extract list keys if present.
+    """
+    try:
+        k = stmt.search_one("key")
+        if k is None or not getattr(k, "arg", None):
+            return []
+        # key arg is "k1 k2 ..."
+        return [x.strip() for x in str(k.arg).split() if x.strip()]
+    except Exception:
+        return []
 
 
 def traverse_module(
@@ -299,40 +337,67 @@ def traverse_module(
     *,
     min_leaves: int = 1,
     max_depth: Optional[int] = None,
+    max_leaf_names_store: int = 200,
 ) -> List[Dict]:
-    """
-    Extract candidate sensor paths for a single module.
-
-    Criteria:
-      - Consider all container/list subtrees
-      - Keep those with >= min_leaves distinct leaf names
-      - Depth can be limited with max_depth
-    """
     module_name = str(mod.arg)
     results: List[Dict] = []
+
+    # Memoize subtree leaf sets per statement object-id
+    leaf_memo: Dict[int, List[str]] = {}
+
+    def subtree_leaf_names(stmt: statements.Statement) -> List[str]:
+        sid = id(stmt)
+        if sid in leaf_memo:
+            return leaf_memo[sid]
+
+        names: set[str] = set()
+
+        def _walk(s: statements.Statement) -> None:
+            if is_leaf(s):
+                if getattr(s, "arg", None):
+                    names.add(str(s.arg))
+                return
+            for ch in iter_children(s):
+                _walk(ch)
+
+        _walk(stmt)
+        out = sorted(names)
+        leaf_memo[sid] = out
+        return out
 
     def _walk(stmt: statements.Statement, ancestors: List[str], depth: int) -> None:
         if max_depth is not None and depth > max_depth:
             return
 
         if is_container_or_list(stmt):
-            leaf_names = collect_leaf_names(stmt)
-            leaf_count = len(leaf_names)
+            leaf_names_full = subtree_leaf_names(stmt)
+            leaf_count = len(leaf_names_full)
+
             if leaf_count >= min_leaves:
-                desc_stmt = stmt.search_one("description")
-                desc = (desc_stmt.arg.strip() if desc_stmt and desc_stmt.arg else "")
+                desc = get_first_arg(stmt, "description") or ""
                 path = build_path(module_name, ancestors, str(stmt.arg))
-                protocol_tag = guess_protocol_tag(module_name, path)
-                categories = guess_categories(path, leaf_names)
+
+                dom, conf, reasons = classify_domain(module_name, path)
+                proto = protocol_tag_compat(dom)
+                cats = guess_categories(path, leaf_names_full, desc)
+
+                # cap stored leaf names (but keep leaf_count)
+                leaf_names_store = leaf_names_full[:max_leaf_names_store]
 
                 results.append(
                     {
                         "module": module_name,
+                        "module_family": module_family(module_name),
+                        **extract_module_meta(mod),
                         "path": path,
-                        "kind": stmt.keyword,  # "container" or "list"
-                        "protocol_tag": protocol_tag,
-                        "category": categories,
-                        "leaf_names": leaf_names,
+                        "kind": stmt.keyword,
+                        "key_leaves": list_keys(stmt) if stmt.keyword == "list" else [],
+                        "protocol_tag": proto,  # backward compatible
+                        "domain": dom,
+                        "domain_confidence": float(conf),
+                        "domain_reasons": reasons,
+                        "category": cats,
+                        "leaf_names": leaf_names_store,
                         "leaf_count": leaf_count,
                         "description": desc,
                     }
@@ -345,7 +410,6 @@ def traverse_module(
                 if is_container_or_list(ch):
                     _walk(ch, next_anc, depth + 1)
 
-    # top-level data nodes
     for ch in iter_children(mod):
         if is_container_or_list(ch):
             _walk(ch, [], 1)
@@ -355,38 +419,49 @@ def traverse_module(
 
 # ----------------------- Search Text Enrichment -------------------------------
 
-
 def build_search_text(
     entry: Dict,
     *,
     max_leaves_in_text: int = 30,
     max_text_chars: int = 2000,
 ) -> str:
-    """
-    Build an embedding-friendly summary string for an entry.
-    """
     parts: List[str] = []
-
     parts.append(f"Module: {entry['module']}")
+    parts.append(f"Family: {entry.get('module_family','')}")
     parts.append(f"Path: {entry['path']}")
 
+    if entry.get("domain"):
+        parts.append(f"Domain: {entry['domain']} (conf={entry.get('domain_confidence',0):.2f})")
+
     if entry.get("protocol_tag"):
-        parts.append(f"Protocol: {entry['protocol_tag']}")
+        parts.append(f"ProtocolTag: {entry['protocol_tag']}")
 
     if entry.get("category"):
-        parts.append("Tags: " + ", ".join(entry["category"]))
+        parts.append("Category: " + ", ".join(entry["category"]))
 
     if entry.get("description"):
         parts.append("Description: " + entry["description"])
+
+    keys = entry.get("key_leaves") or []
+    if keys:
+        parts.append("ListKeys: " + ", ".join(keys))
 
     leaf_count = int(entry.get("leaf_count", 0) or len(entry.get("leaf_names", [])))
     leaf_names: List[str] = list(entry.get("leaf_names", []))
 
     if leaf_names:
         sample = leaf_names[:max_leaves_in_text]
-        parts.append(f"Example fields ({len(sample)}/{leaf_count}): " + ", ".join(sample))
+        parts.append(f"Fields ({len(sample)}/{leaf_count}): " + ", ".join(sample))
         if leaf_count > max_leaves_in_text:
-            parts.append(f"(+ {leaf_count - max_leaves_in_text} more fields not listed)")
+            parts.append(f"(+ {leaf_count - max_leaves_in_text} more)")
+
+    # Include namespace/prefix lightly (helps disambiguation for retrieval)
+    if entry.get("prefix"):
+        parts.append(f"Prefix: {entry['prefix']}")
+    if entry.get("namespace"):
+        parts.append(f"Namespace: {entry['namespace']}")
+    if entry.get("revision"):
+        parts.append(f"Revision: {entry['revision']}")
 
     text = "\n".join(parts)
     if len(text) > max_text_chars:
@@ -394,18 +469,15 @@ def build_search_text(
     return text
 
 
-def prepare_yang_entries(
+def prepare_entries(
     all_rows: List[Dict],
     *,
     max_leaves_in_text: int = 30,
     max_text_chars: int = 2000,
 ) -> List[Dict]:
-    """
-    Add id + search_text to each entry.
-    """
     enriched: List[Dict] = []
     for i, row in enumerate(all_rows):
-        r = dict(row)  # shallow copy (avoid mutating input)
+        r = dict(row)
         r["id"] = i
         r["search_text"] = build_search_text(
             r,
@@ -418,7 +490,6 @@ def prepare_yang_entries(
 
 # ----------------------------- JSONL Writing ----------------------------------
 
-
 def write_jsonl(rows: List[Dict], out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w", encoding="utf-8") as f:
@@ -426,33 +497,7 @@ def write_jsonl(rows: List[Dict], out_path: Path) -> None:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
-# ----------------------------- Optional Stats ---------------------------------
-
-
-def compute_text_length_stats(rows: List[Dict]) -> Dict[str, float]:
-    lengths = [len(r.get("search_text", "") or "") for r in rows]
-    if not lengths:
-        return {"count": 0, "min": 0, "max": 0, "mean": 0, "median": 0, "std": 0}
-
-    n = len(lengths)
-    mean = sum(lengths) / n
-    sorted_l = sorted(lengths)
-    median = sorted_l[n // 2]
-    var = sum((x - mean) ** 2 for x in lengths) / n
-    std = var**0.5
-
-    return {
-        "count": float(n),
-        "min": float(min(lengths)),
-        "max": float(max(lengths)),
-        "mean": float(mean),
-        "median": float(median),
-        "std": float(std),
-    }
-
-
-# --------------------------------- Orchestration -----------------------------
-
+# --------------------------------- Orchestration ------------------------------
 
 def build_catalog(
     *,
@@ -463,57 +508,44 @@ def build_catalog(
     oper_only: bool = True,
     max_leaves_in_text: int = 30,
     max_text_chars: int = 2000,
-    stats: bool = False,
+    max_leaf_names_store: int = 200,
 ) -> int:
-    logger.info("YANG base: %s", base_dir)
-    logger.info("Output JSONL: %s", out_json)
-
     if not base_dir.exists():
         logger.error("Base dir does not exist: %s", base_dir)
         return 2
 
     _, modules = load_modules(base_dir)
 
-    # Filter to operational modules if requested. This can be slow for many
-    # modules (module_source_ref may access file metadata), so show progress
-    # while we check each module.
     if oper_only:
         modules_used: List[statements.Statement] = []
         print(f"Filtering {len(modules)} parsed modules for operational ones...")
         for i, m in enumerate(modules, 1):
-            try:
-                if is_operational_module(m):
-                    modules_used.append(m)
-            except Exception as e:
-                logger.debug("Error checking oper-only for module %s: %s", module_source_ref(m), e)
-
+            if is_operational_module(m):
+                modules_used.append(m)
             if i % 100 == 0 or i == len(modules):
-                print(
-                    f"  checked {i}/{len(modules)} modules, found {len(modules_used)} operational",
-                    flush=True,
-                )
+                print(f"  checked {i}/{len(modules)} modules, kept {len(modules_used)}", flush=True)
     else:
         modules_used = modules
 
-    logger.info("Modules parsed: %d", len(modules))
-    logger.info("Modules used:   %d", len(modules_used))
-
-    # Inform the user about module processing progress (flush so it's immediate)
     print(f"Processing {len(modules_used)} modules (this may take a while)...", flush=True)
 
     all_rows: List[Dict] = []
     for idx, mod in enumerate(modules_used, 1):
         mod_name = str(getattr(mod, "arg", "") or "")
         if len(modules_used) <= 50 or idx % 10 == 0 or idx == len(modules_used):
-            # Print sparse progress for large sets, or every module for small sets
             print(f"  [{idx}/{len(modules_used)}] module: {mod_name}", flush=True)
 
-        rows = traverse_module(mod, min_leaves=min_leaves, max_depth=max_depth)
+        rows = traverse_module(
+            mod,
+            min_leaves=min_leaves,
+            max_depth=max_depth,
+            max_leaf_names_store=max_leaf_names_store,
+        )
         all_rows.extend(rows)
 
-    logger.info("Total catalog entries: %d", len(all_rows))
+    logger.info("Total catalog entries (pre-enrich): %d", len(all_rows))
 
-    all_rows = prepare_yang_entries(
+    all_rows = prepare_entries(
         all_rows,
         max_leaves_in_text=max_leaves_in_text,
         max_text_chars=max_text_chars,
@@ -523,16 +555,4 @@ def build_catalog(
     write_jsonl(all_rows, out_json)
     print(f"Wrote catalog to: {out_json}")
     print(f"Entries: {len(all_rows)}")
-
-    if stats:
-        s = compute_text_length_stats(all_rows)
-        print("search_text length stats:")
-        print(
-            f"  count={int(s['count'])}  min={int(s['min'])}  max={int(s['max'])}  "
-            f"mean={s['mean']:.1f}  median={s['median']:.0f}  std={s['std']:.1f}"
-        )
-
-        none_count = sum(1 for r in all_rows if r.get("protocol_tag") is None)
-        print(f"protocol_tag == None: {none_count} / {len(all_rows)}")
-
     return 0

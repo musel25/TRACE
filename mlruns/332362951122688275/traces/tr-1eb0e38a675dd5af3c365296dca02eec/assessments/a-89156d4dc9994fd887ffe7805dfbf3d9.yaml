@@ -1,0 +1,26 @@
+assessment_id: a-89156d4dc9994fd887ffe7805dfbf3d9
+assessment_name: xr_config_quality_score
+create_time: '2026-01-11T22:27:17.043Z'
+feedback:
+  value: 0.8
+last_update_time: '2026-01-11T22:27:17.043Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.000644'
+  mlflow.assessment.sourceRunId: d6cccd615afc495ab38949f153657afc
+rationale: The output correctly configures telemetry model-driven for NetFlow operational
+  statistics with relevant sensor-paths for exporter, cache, and drops, which are
+  appropriate for monitoring NetFlow flow monitor operational stats as requested.
+  The destination IP (192.0.2.115), port (57500), protocol (grpc no-tls), and encoding
+  (self-describing-gpb) match the user request exactly. The sample-interval differs
+  (30000 vs 60000) but this is not penalized. The sensor-group and subscription names
+  differ but this is allowed. The sensor-paths used are from Cisco-IOS-XR-dnx-netflow-oper,
+  which is a valid and relevant module for NetFlow operational data, though different
+  from the reference which uses Cisco-IOS-XR-netflow-oper and Cisco-IOS-XR-flowspec-oper.
+  Overall, the configuration meets the user request well with only minor differences
+  from the reference, so a high score is justified.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: e3e9de99f10c718b
+trace_id: tr-1eb0e38a675dd5af3c365296dca02eec
+valid: true

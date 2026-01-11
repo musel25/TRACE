@@ -1,0 +1,48 @@
+assessment_id: a-cee230d9c90345b488a5c7f1ab6fefe4
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:02:57.363Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:02:57.363Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0008415999999999999'
+  mlflow.assessment.sourceRunId: 406ce4fb3e0847b2b1765e39001a672d
+rationale: 'The model output includes a detailed telemetry model-driven configuration
+  with a sensor-group named ''OPTICS-PROTOCOL'' containing multiple sensor-paths specific
+  to optics telemetry, a destination-group ''DG-GRPC'' with address, port, encoding,
+  and protocol matching the prompt, and a subscription linking the sensor-group and
+  destination-group. The expected response, however, specifies a sensor-group ''Optics-STATS''
+  with a single, more general sensor-path ''optics-info'', a subscription named ''SUB-Optics''
+  with a longer sample-interval of 120000 milliseconds, and a destination-group ''DG-Optics''
+  with the server details presented in a more compact syntax.
+
+
+  Differences noted:
+
+  - Sensor-group name and content differ, with the model output being more detailed
+  but differing in naming and paths.
+
+  - Subscription sample-intervals differ (30000 vs 120000).
+
+  - Destination-group names differ (''DG-GRPC'' vs ''DG-Optics'').
+
+  - The structure of the destination-group differs; the expected response specifies
+  address-family ipv4 with IP and port in one line, while the model output splits
+  these.
+
+
+  Though functionally similar in targeting the same server with gRPC no-tls and self-describing-gpb
+  encoding and telemetry of optics data, the model output differs significantly in
+  sensor-group naming and subscription parameters, which affects functional equivalence.
+  Also, the expected response uses a higher sample interval, which is part of telemetry
+  config behavior.
+
+
+  Therefore, the model output is not functionally equivalent to the expected configuration
+  and is not acceptable.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: a491f0b2ea1fca65
+trace_id: tr-e27a984d654821d07fcd9eb1a7cad415
+valid: true

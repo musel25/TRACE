@@ -1,0 +1,23 @@
+assessment_id: a-3f4a5b85caee4b188ee84856e8d14770
+assessment_name: xr_config_quality_score
+create_time: '2026-01-11T22:26:10.558Z'
+feedback:
+  value: 0.8
+last_update_time: '2026-01-11T22:26:10.558Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.00057'
+  mlflow.assessment.sourceRunId: 9a392d98f0614011bb6720e96a440ea9
+rationale: The output correctly configures model-driven telemetry for IOS XR 7.0.1
+  with gRPC no TLS to the specified telemetry server IP and port, matching the user's
+  request. The protocol, encoding, and destination details are accurate. The sensor-paths
+  chosen relate to IPv4 and IPv6 RIB data, which aligns with the user's request for
+  routing information base summary and route counters, though the exact sensor-paths
+  differ from the reference. The sample interval differs but is not penalized as the
+  user did not specify it. Overall, the configuration meets the core requirements
+  with minor differences in sensor-path naming and structure, which is acceptable.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: f16287e4e9c349e0
+trace_id: tr-3602f8ac10f1bc81448aaa9e66b2bc5b
+valid: true

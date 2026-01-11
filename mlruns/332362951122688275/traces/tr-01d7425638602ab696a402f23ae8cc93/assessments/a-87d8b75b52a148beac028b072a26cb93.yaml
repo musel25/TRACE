@@ -1,0 +1,31 @@
+assessment_id: a-87d8b75b52a148beac028b072a26cb93
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:03:24.997Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:03:24.997Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.000704'
+  mlflow.assessment.sourceRunId: 8121baaa32ee4dc68f63fa101b0e5c93
+rationale: 'The model output does not match the expectations in several key areas.
+  1) Sensor-paths: The model uses ''Cisco-IOS-XR-ipv4-ospf-cfg:ospf'', which is a
+  configuration path, while the expected response uses operational data paths such
+  as ''Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/vrfs/vrf/database'' and
+  ''.../areas''. These represent different data and have different intents; monitoring
+  OSPF operational state is generally more useful in telemetry than configuration
+  data. 2) Destination-group naming: The model uses ''DG-GRPC'' and protocol as ''grpc
+  no-tls'', while the expected uses ''DG-OSPF'' with protocol ''tcp'' as requested
+  by the user. The user''s prompt specified protocol tcp, but the model incorrectly
+  sets ''grpc no-tls''. 3) The model groups destination and subscription, but the
+  expected response separates destination-group into its own section and includes
+  the proper address-family syntax with port, encoding, and protocol. 4) The sample-interval
+  of 30000 is consistent in both. 5) Overall the intent relevant sensor-paths (operational
+  OSPF data) and destination details are important and missing or incorrect in the
+  model output. Because of these substantial deviations in critical fields, the model
+  output is not functionally equivalent or acceptable compared to the expected response.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: b535106e122c9a56
+trace_id: tr-01d7425638602ab696a402f23ae8cc93
+valid: true

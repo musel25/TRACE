@@ -1,0 +1,24 @@
+assessment_id: a-23b048aff6bc4b18a3f39e830bd952dd
+assessment_name: xr_config_quality_score
+create_time: '2026-01-11T22:26:10.560Z'
+feedback:
+  value: 0.8
+last_update_time: '2026-01-11T22:26:10.560Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005156'
+  mlflow.assessment.sourceRunId: 9a392d98f0614011bb6720e96a440ea9
+rationale: The output correctly configures model-driven telemetry for QoS policy-map
+  statistics using gRPC with no TLS to the specified telemetry server IP and port,
+  matching the user's request. The protocol, encoding, and destination details are
+  accurate. The sensor-paths chosen are relevant to QoS policy-map statistics, though
+  the output uses a slightly different sensor-path hierarchy and omits some paths
+  present in the reference. However, these differences do not detract significantly
+  from the relevance. The naming of groups and subscriptions differs but is not penalized.
+  Overall, the configuration meets the core requirements well with minor deviations
+  in sensor-path details.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 61b1cd2262801c45
+trace_id: tr-10435a1098ae43346c12ace8ae340454
+valid: true

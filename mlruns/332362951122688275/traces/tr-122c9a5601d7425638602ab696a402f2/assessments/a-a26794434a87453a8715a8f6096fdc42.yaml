@@ -1,0 +1,19 @@
+assessment_id: a-a26794434a87453a8715a8f6096fdc42
+assessment_name: expected_response
+create_time: '2026-01-11T22:26:41.377Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group RIB-OPER\n sensor-path Cisco-IOS-XR-rib-oper:rib/vrfs/vrf/afi-safi/ipv4-unicast\n
+    sensor-path Cisco-IOS-XR-rib-oper:rib/vrfs/vrf/afi-safi/ipv6-unicast\n sensor-path
+    Cisco-IOS-XR-rib-oper:rib/summary\n !\n destination-group DG-RIB\n address-family
+    ipv4\n destination 192.0.2.111\n port 57500\n encoding self-describing-gpb\n protocol
+    grpc no-tls\n !\n subscription SUB-RIB\n sensor-group-id RIB-OPER sample-interval
+    60000\n destination-group-id DG-RIB\n !\n!"
+last_update_time: '2026-01-11T22:26:41.377Z'
+metadata:
+  mlflow.assessment.sourceRunId: a7230b7cd5f2477fb1ab39c10b03462a
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: a18ff6b6b535106e
+trace_id: tr-122c9a5601d7425638602ab696a402f2
+valid: true

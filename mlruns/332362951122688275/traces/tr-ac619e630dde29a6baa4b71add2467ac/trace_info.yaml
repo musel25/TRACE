@@ -1,0 +1,17 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration
+  for CEF/FIB operational monitoring (forwarding entries and statistics). Use gRPC
+  with no TLS. Telemetry server 192.0.2.112 port 57500. Choose relevant sensor-paths."}'
+request_time: '2026-01-11T22:26:39.283Z'
+response_preview: '"telemetry model-driven\n sensor-group CEF-FIB-MONITOR\n  sensor-path
+  Cisco-IOS-XR-fib-common-oper:fib/forwarding-items/forwarding-item\n  sensor-path
+  Cisco-IOS-XR-fib-common-oper:fib/statistics\n !\n destination-group DG-GRPC\n  address-family
+  ipv4\n   destination 192.0.2.112\n    port 57500\n    encoding self-describing-gpb\n    protocol
+  grpc no-tls\n !\n subscription SUB-CEF-FIB\n  sensor-group-id CEF-FIB-MONITOR sample-interval
+  30000\n  destination-group-id DG-GRPC\n !"'
+state: OK
+trace_id: tr-ac619e630dde29a6baa4b71add2467ac
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

@@ -1,0 +1,17 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "I need telemetry config for monitoring intermediate
+  system to intermediate system on Cisco IOS XR router. Use destination 10.10.10.20:57000
+  with tcp."}'
+request_time: '2026-01-11T21:55:45.834Z'
+response_preview: '"telemetry model-driven\n sensor-group ISIS-IS-IS\n  sensor-path
+  Cisco-IOS-XR-clns-isis-oper:isis/instances/instance/intermediate-systems/intermediate-system\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 10.10.10.20\n    port
+  57000\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-ISIS-IS-IS\n  sensor-group-id ISIS-IS-IS sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-913e4de2e0c53cb83da9c2a90ed42f1a
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

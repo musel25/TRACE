@@ -1,0 +1,1 @@
+{"prompt": "Create IOS XR telemetry configuration to stream Segment-Routing data to 172.16.1.20 port 57400 using grpc no-tls."}

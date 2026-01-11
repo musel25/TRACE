@@ -1,0 +1,19 @@
+assessment_id: a-4197c044578c4853ac37cd2dc7dd98f2
+assessment_name: expected_response
+create_time: '2026-01-11T22:20:14.774Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group VRF-OPER\n sensor-path Cisco-IOS-XR-infra-rsi-oper:rsi/vrfs/vrf\n
+    sensor-path Cisco-IOS-XR-infra-rsi-oper:rsi/vrfs/vrf/afs/af\n sensor-path Cisco-IOS-XR-infra-rsi-oper:rsi/vrfs/vrf/route-targets\n
+    !\n destination-group DG-VRF\n address-family ipv4\n destination 192.0.2.117\n
+    port 57500\n encoding self-describing-gpb\n protocol grpc no-tls\n !\n subscription
+    SUB-VRF\n sensor-group-id VRF-OPER sample-interval 120000\n destination-group-id
+    DG-VRF\n !\n!"
+last_update_time: '2026-01-11T22:20:14.774Z'
+metadata:
+  mlflow.assessment.sourceRunId: df21a534e15f4643bb87b724abf64f4a
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: dc98d2c1e2acf72f
+trace_id: tr-9e574f7aa0ee89aed453dd324b0dbb41
+valid: true

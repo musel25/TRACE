@@ -1,0 +1,19 @@
+assessment_id: a-5348470c77d94474acff9734f692e993
+assessment_name: expected_response
+create_time: '2026-01-11T22:26:42.099Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group MCAST-OPER\n sensor-path Cisco-IOS-XR-ipv4-igmp-oper:igmp/active\n
+    sensor-path Cisco-IOS-XR-ipv4-pim-oper:pim/active\n sensor-path Cisco-IOS-XR-ipv4-pim-oper:pim/active/vrfs/vrf/interfaces\n
+    !\n destination-group DG-MCAST\n address-family ipv4\n destination 192.0.2.116\n
+    port 57500\n encoding self-describing-gpb\n protocol grpc no-tls\n !\n subscription
+    SUB-MCAST\n sensor-group-id MCAST-OPER sample-interval 60000\n destination-group-id
+    DG-MCAST\n !\n!"
+last_update_time: '2026-01-11T22:26:42.099Z'
+metadata:
+  mlflow.assessment.sourceRunId: a7230b7cd5f2477fb1ab39c10b03462a
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: c8dcd19f3e351128
+trace_id: tr-7900f7f993829b43922fe15ae1e3db63
+valid: true

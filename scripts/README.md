@@ -27,12 +27,20 @@ Key options:
 - `--oper-only` / `--no-oper`: include only operational modules (default: `--oper-only`)
 - `--max-leaves-in-text`: number of leaf names in `search_text` (default: 30)
 - `--max-text-chars`: hard cap for `search_text` length (default: 2000)
+- `max-leaf-names-store` : cap the number of leaf names stored per entry (leaf_count is still the full count) (default: 200)
 - `--stats`: print `search_text` length stats
 - `-v` / `-vv`: increase logging verbosity
 
 Example:
 ```bash
-uv run python scripts/build_sensor_catalog.py --min-leaves 3 --stats
+uv run python scripts/build_sensor_catalog.py \
+  --out-json data/sensor_catalog_improved.jsonl
+  --oper-only \
+  --min-leaves 3 \
+  --max-depth 8 \
+  --max-leaves-in-text 25 \
+  --max-text-chars 1600 \
+  --max-leaf-names-store 200
 ```
 
 ### Ingest embeddings into Qdrant
@@ -46,6 +54,7 @@ docker run -p 6333:6333 -p 6334:6334 \
 `scripts/ingest_qdrant.py` embeds and upserts either:
 - fixed-window chunks from raw YANG files (`raw`, default-style naive chunking)
 - or `sensor_catalog.jsonl` entries (`catalog`)
+If no mode is provided, it defaults to `raw`.
 
 Global options:
 - `--qdrant-host`: Qdrant host (local mode)
@@ -74,8 +83,13 @@ Mode: `raw`
 
 Examples:
 ```bash
+uv run python scripts/ingest_qdrant.py catalog \
+  --catalog-path data/sensor_catalog_improved.jsonl \
+  --collection catalog_embeddings_improved \
+
 uv run python scripts/ingest_qdrant.py catalog --catalog-path data/sensor_catalog.jsonl
 uv run python scripts/ingest_qdrant.py raw --yang-root data/yang/vendor/cisco/xr/701 --chunk-chars 1000 --limit 10
+uv run python scripts/ingest_qdrant.py --yang-root data/yang/vendor/cisco/xr/701 --chunk-chars 1000
 ```
 
 ### Naive RAG CLI
@@ -102,13 +116,13 @@ Key options:
 Examples:
 ```bash
 uv run python scripts/naive_rag.py \
-  --collection catalog_embeddings \
+  --collection catalog_embeddings_improved \
   --top-k 10 \
   --system-prompt-file data/iosxr_prompt.txt \
-  "Generate telemetry configuration for Cisco IOS XR about BGP."
+  "Can you generate telemetry configuration for cisco ios xr about bgp protocol ? Use grpc with no tls, the telemetry server address is 192.0.2.0 with port 57500. Choose relevant sensor-paths. "
 
 uv run python scripts/naive_rag.py \
-  --collection fixed_window_embeddings \
+  --collection catalog_embeddings \
   --top-k 12 \
   --embedding-model text-embedding-3-small \
   --chat-model gpt-4.1-mini \
@@ -117,4 +131,29 @@ uv run python scripts/naive_rag.py \
   --filter-value bgp \
   --answer-instruction "Return only IOS XR telemetry configuration." \
   "Generate telemetry configuration for IOS XR about BGP."
+```
+
+### Retrieve chunks (no RAG)
+
+`scripts/retrieve_chunks.py` retrieves the most relevant chunks from Qdrant
+without running a chat model. Use it to inspect retrieval independently from
+RAG.
+
+Key options:
+- `--collection`: Qdrant collection
+- `--top-k`: number of chunks to retrieve
+- `--score-threshold`: drop low-scoring hits
+- `--filter-field` / `--filter-value`: exact-match payload filter
+- `--embedding-model`: embedding model (e.g. `text-embedding-3-small`)
+- `--json`: emit a JSON payload with chunks
+- `--no-text`: print metadata only
+- `--max-text-chars`: truncate chunk text after N chars
+
+Example:
+```bash
+uv run python scripts/retrieve_chunks.py \
+  --collection catalog_embeddings \
+  --top-k 8 \
+  --score-threshold 0.2 \
+  "IOS XR telemetry for BGP"
 ```

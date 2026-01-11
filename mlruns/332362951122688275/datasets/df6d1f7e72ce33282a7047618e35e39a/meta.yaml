@@ -1,0 +1,10 @@
+digest: 10ddc37b
+name: dataset
+profile: '{"num_rows": 10, "num_elements": 30}'
+schema: '{"mlflow_colspec": [{"type": "object", "properties": {"prompt": {"type":
+  "string", "required": true}}, "name": "inputs", "required": true}, {"type": "string",
+  "name": "outputs", "required": true}, {"type": "object", "properties": {"expected_response":
+  {"type": "string", "required": true}}, "name": "expectations", "required": true}]}'
+source: '{"tags": {"mlflow.user": "musel", "mlflow.source.name": "/home/musel/Documents/github/TRACE/.venv/lib/python3.11/site-packages/ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

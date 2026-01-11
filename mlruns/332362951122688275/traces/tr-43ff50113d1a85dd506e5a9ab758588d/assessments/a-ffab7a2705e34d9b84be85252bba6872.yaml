@@ -1,0 +1,18 @@
+assessment_id: a-ffab7a2705e34d9b84be85252bba6872
+assessment_name: expected_response
+create_time: '2026-01-11T21:56:51.968Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group BFD-STATS\n  sensor-path Cisco-IOS-XR-ip-bfd-oper:bfd/counters\n
+    \ sensor-path Cisco-IOS-XR-ip-bfd-oper:bfd/sessions\n !\n subscription SUB-BFD\n
+    \ sensor-group-id BFD-STATS sample-interval 30000\n  destination-group DG-BFD\n
+    !\n destination-group DG-BFD\n  address-family ipv4 192.0.2.100 port 57000\n   encoding
+    json\n   protocol grpc tls\n  !\n !\n!"
+last_update_time: '2026-01-11T21:56:51.968Z'
+metadata:
+  mlflow.assessment.sourceRunId: 6dc6e9d87fef4ba1b18a120b8937bfee
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 21813d25655238a6
+trace_id: tr-43ff50113d1a85dd506e5a9ab758588d
+valid: true

@@ -1,0 +1,16 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Generate telemetry model-driven configuration for Environment
+  protocol on IOS XR. Server: 172.16.1.20, port: 57000, protocol: grpc no-tls, encoding:
+  json."}'
+request_time: '2026-01-11T21:55:24.159Z'
+response_preview: '"telemetry model-driven\n sensor-group ENVIRONMENT-PROTOCOL\n  sensor-path
+  telemetry-model-driven\n !\n destination-group DG-GRPC\n  address-family ipv4\n   destination
+  172.16.1.20\n    port 57000\n    encoding self-describing-gpb\n    protocol grpc
+  no-tls\n !\n subscription SUB-ENVIRONMENT-PROTOCOL\n  sensor-group-id ENVIRONMENT-PROTOCOL
+  sample-interval 30000\n  destination-group-id DG-GRPC\n !"'
+state: OK
+trace_id: tr-eb2263dd87c5421eec24a3c5c754108f
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

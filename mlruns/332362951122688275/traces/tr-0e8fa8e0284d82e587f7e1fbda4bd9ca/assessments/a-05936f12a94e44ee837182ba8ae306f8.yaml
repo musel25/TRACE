@@ -1,0 +1,32 @@
+assessment_id: a-05936f12a94e44ee837182ba8ae306f8
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:03:53.381Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:03:53.381Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0006856'
+  mlflow.assessment.sourceRunId: b3c9f5435d35459a876dff76c7de410f
+rationale: The model output does not meet the expectations provided in several key
+  aspects. First, the sensor-group in the model output is named 'ISIS-DATA' with a
+  single generic sensor-path 'Cisco-IOS-XR-clns-isis-oper:isis', whereas the expected
+  response uses 'ISIS-STATS' and includes specific sensor-paths targeting ISIS instance
+  statistics and neighbors, which are more precise and likely more relevant. Second,
+  the destination-group in the model output is named 'DG-GRPC' and its structure differs
+  from the expected 'DG-ISIS'; notably, the model output has the 'destination' and
+  'port' attributes nested under 'address-family ipv4' but with an explicit 'destination
+  192.0.2.10' line, whereas the expected config has a different syntax format. Third,
+  and most importantly, the model output sets 'protocol grpc no-tls' explicitly, contradicting
+  the user prompt's request to use 'grpc tls'. The expected response correctly sets
+  'protocol grpc tls'. Additionally, the encoding used is 'self-describing-gpb' in
+  the model output, whereas the expected config uses 'gpb', likely the preferred or
+  standard encoding. Lastly, the subscription parameters differ between sample intervals
+  and destination-group references. Because of these functional differences — particularly
+  the non-use of TLS and missing specific sensor-paths — the model output is not acceptable
+  or functionally equivalent to the expected configuration for the user request.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 82010c62f5f59b22
+trace_id: tr-0e8fa8e0284d82e587f7e1fbda4bd9ca
+valid: true

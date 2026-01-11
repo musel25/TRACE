@@ -1,0 +1,16 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Generate telemetry model-driven configuration for Interface
+  protocol on IOS XR. Server: 172.16.1.10, port: 5432, protocol: tcp, encoding: json."}'
+request_time: '2026-01-11T21:56:29.002Z'
+response_preview: '"telemetry model-driven\n sensor-group INTERFACE-STATE\n  sensor-path
+  Cisco-IOS-XR-linux-xlnc-oper:linux-networking/global/status/inconsistencies-per-interfaces/inconsistencies-per-interface\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 172.16.1.10\n    port
+  5432\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-INTERFACE-STATE\n  sensor-group-id INTERFACE-STATE sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-7b3a4e3e7c52fa17680ac07a2a935d62
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

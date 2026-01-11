@@ -1,0 +1,17 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration
+  for LACP/EtherChannel operational monitoring (bundles, members, counters). Use gRPC
+  with no TLS. Telemetry server is 192.0.2.118 on port 57500. Choose relevant sensor-paths."}'
+request_time: '2026-01-11T22:20:09.845Z'
+response_preview: '"telemetry model-driven\n sensor-group LACP-ETHCHANNEL-OPR\n  sensor-path
+  Cisco-IOS-XR-lacp-oper:lacp/bundles/bundle\n  sensor-path Cisco-IOS-XR-lacp-oper:lacp/members/member\n  sensor-path
+  Cisco-IOS-XR-lacp-oper:lacp/counters\n !\n destination-group DG-GRPC\n  address-family
+  ipv4\n   destination 192.0.2.118\n    port 57500\n    encoding self-describing-gpb\n    protocol
+  grpc no-tls\n !\n subscription SUB-LACP-ETHCHANNEL\n  sensor-group-id LACP-ETHCHANNEL-OPR
+  sample-interval 30000\n  destination-group-id DG-GRPC\n !"'
+state: OK
+trace_id: tr-d8f564135be6128e18c267976142ea7d
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

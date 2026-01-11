@@ -1,0 +1,26 @@
+assessment_id: a-af053ba758f64941b7c5ccd65f349a9a
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:20:14.309Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:20:14.309Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0006152'
+  mlflow.assessment.sourceRunId: df21a534e15f4643bb87b724abf64f4a
+rationale: The model output is not functionally equivalent to the expected response.
+  The expected configuration includes sensor paths for both IGMP ('Cisco-IOS-XR-ipv4-igmp-oper:igmp/active')
+  and PIM multicast operational data ('Cisco-IOS-XR-ipv4-pim-oper:pim/active' and
+  interfaces), while the model output only includes various PIM sensor paths and an
+  XTC agent path that is not part of the expected configuration. Furthermore, the
+  sensor group name differs ('MULTICAST-OPERATIONAL' vs 'MCAST-OPER'), the destination
+  group name differs ('DG-GRPC' vs 'DG-MCAST'), and the sample interval in subscription
+  differs (30000 ms vs 60000 ms). Also, the model output uses nested sensor-paths
+  including 'interface-statistic' and 'p2mp-policies', which are not in the expectations.
+  These differences affect the intent-relevant sensor-paths and overall functional
+  equivalence, so the output is not acceptable.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 27cd813047229389
+trace_id: tr-571aa8766c307511b2b9437a28df6ec4
+valid: true

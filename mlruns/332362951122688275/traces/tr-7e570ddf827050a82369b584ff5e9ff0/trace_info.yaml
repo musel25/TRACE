@@ -1,0 +1,20 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Configure model-driven telemetry for EVPN on IOS XR
+  with server 10.10.10.10:57000, tcp, sample interval 30000ms."}'
+request_time: '2026-01-11T21:54:52.459Z'
+response_preview: '"telemetry model-driven\n sensor-group EVPN-TELEMETRY\n  sensor-path
+  evpn/standby/teps\n  sensor-path evpn/standby/evi-detail/evi-children/route-targets/route-target/evpn-instance\n  sensor-path
+  evpn/standby/evi-detail/evi-children/ethernet-auto-discoveries\n  sensor-path evpn/standby/teps/tep\n  sensor-path
+  evpn/standby/evi-detail/evi-children/ethernet-auto-discoveries/ethernet-auto-discovery/path-buffer/sr-te-info\n  sensor-path
+  evpn/standby/evi-detail/evi-children/macs/mac/path-buffer/sr-te-info\n  sensor-path
+  evpn/active/teps\n  sensor-path evpn/active/evi-detail/evi-children/route-targets/route-target/evpn-instance\n  sensor-path
+  evpn/active/evi-detail/evi-children/macs/mac/path-buffer/sr-te-info\n !\n destination-group
+  DG-GRPC\n  address-family ipv4\n   destination 10.10.10.10\n    port 57000\n    encoding
+  self-describing-gpb\n    protocol grpc no-tls\n !\n subscription SUB-EVPN\n  sensor-group-id
+  EVPN-TELEMETRY sample-interval 30000\n  destination-group-id DG-GRPC\n !"'
+state: OK
+trace_id: tr-7e570ddf827050a82369b584ff5e9ff0
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

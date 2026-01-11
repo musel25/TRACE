@@ -1,0 +1,16 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create Cisco IOS XR 7.0.1 telemetry model-driven configuration
+  to monitor NetFlow/flow monitor operational statistics (exporter, cache, drops).
+  Use gRPC with no TLS. Telemetry server 192.0.2.115 port 57500. Choose relevant sensor-paths."}'
+request_time: '2026-01-11T22:26:08.314Z'
+response_preview: '"telemetry model-driven\n sensor-group NETFLOW-STATS\n  sensor-path
+  Cisco-IOS-XR-dnx-netflow-oper:net-flow/statistics/statistic/server\n !\n destination-group
+  DG-GRPC\n  address-family ipv4\n   destination 192.0.2.115\n    port 57500\n    encoding
+  self-describing-gpb\n    protocol grpc no-tls\n !\n subscription SUB-NETFLOW-STATS\n  sensor-group-id
+  NETFLOW-STATS sample-interval 30000\n  destination-group-id DG-GRPC\n !"'
+state: OK
+trace_id: tr-382567b85cabcc97663f1c97956269f0
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

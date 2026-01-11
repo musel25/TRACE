@@ -1,0 +1,17 @@
+assessment_id: a-cbdaf1ce83534f608c26843b9cdd8187
+assessment_name: expected_response
+create_time: '2026-01-11T21:56:07.253Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group ISIS-STATS\n  sensor-path Cisco-IOS-XR-clns-isis-oper:isis/instances/instance/topologies/topology/ipv4-routes/ipv4-route\n
+    !\n subscription SUB-ISIS\n  sensor-group-id ISIS-STATS sample-interval 60000\n
+    \ destination-group DG-ISIS\n !\n destination-group DG-ISIS\n  address-family
+    ipv4 10.10.10.10 port 5432\n   encoding json\n   protocol tcp\n  !\n !\n!"
+last_update_time: '2026-01-11T21:56:07.253Z'
+metadata:
+  mlflow.assessment.sourceRunId: b53c1fc9408e472f82b9dce5e5a93cd3
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 3e3511287900f7f9
+trace_id: tr-93829b43922fe15ae1e3db63ef7ddc76
+valid: true

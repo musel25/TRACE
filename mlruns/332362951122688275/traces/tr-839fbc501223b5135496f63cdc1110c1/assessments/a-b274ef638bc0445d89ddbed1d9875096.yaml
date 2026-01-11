@@ -1,0 +1,27 @@
+assessment_id: a-b274ef638bc0445d89ddbed1d9875096
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:03:23.397Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:03:23.397Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005652'
+  mlflow.assessment.sourceRunId: 8121baaa32ee4dc68f63fa101b0e5c93
+rationale: The model output does not match the expected configuration in several key
+  aspects. The expected response specifies the sensor-group as 'Optics-STATS' with
+  a sensor-path pointing to 'Cisco-IOS-XR-controller-optics-oper:optics-oper/optics-ports/optics-port/optics-info',
+  whereas the model output uses 'OPTICS-PROTOCOL' with 'controller-port-mode/optics-name/port-mode-info',
+  which is different and likely incorrect for the Optics protocol on IOS XR. Furthermore,
+  the destination-group and subscription definitions differ; the expected response
+  includes 'DG-Optics' with the address family, IP, port, encoding, and protocol in
+  a specific structure, while the model output defines 'DG-GRPC' and splits the address
+  family and destination differently. Also, the sample-interval in the model output
+  is 30000 ms compared to the expected 120000 ms. These discrepancies indicate the
+  model output is not functionally equivalent to the expectation and does not fulfill
+  the user's prompt as intended.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 474a493b3ceddf2d
+trace_id: tr-839fbc501223b5135496f63cdc1110c1
+valid: true

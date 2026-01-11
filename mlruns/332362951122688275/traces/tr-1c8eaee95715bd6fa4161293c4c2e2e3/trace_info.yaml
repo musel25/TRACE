@@ -1,0 +1,17 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create Cisco IOS XR 7.0.1 telemetry model-driven configuration
+  for VRF operational monitoring (VRF state and route-targets). Use gRPC with no TLS.
+  Telemetry server 192.0.2.117 port 57500. Choose relevant sensor-paths."}'
+request_time: '2026-01-11T22:34:11.020Z'
+response_preview: '"telemetry model-driven\n sensor-group VRF-OPERATIONAL\n  sensor-path
+  Cisco-IOS-XR-infra-tc-oper:traffic-collector/vrf-table\n  sensor-path Cisco-IOS-XR-infra-tc-oper:traffic-collector/vrf-table/default-vrf\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 192.0.2.117\n    port
+  57500\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-VRF-OPERATIONAL\n  sensor-group-id VRF-OPERATIONAL sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-1c8eaee95715bd6fa4161293c4c2e2e3
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

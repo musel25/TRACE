@@ -1,0 +1,15 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create IOS XR telemetry configuration to stream BFD
+  data to 192.0.2.100 port 57000 using grpc tls."}'
+request_time: '2026-01-11T21:56:51.897Z'
+response_preview: '"telemetry model-driven\n sensor-group BFD-STATE\n  sensor-path
+  Cisco-IOS-XR-manageability-object-tracking-cfg:bfd-session\n !\n destination-group
+  DG-GRPC\n  address-family ipv4\n   destination 192.0.2.100\n    port 57000\n    encoding
+  self-describing-gpb\n    protocol grpc no-tls\n !\n subscription SUB-BFD\n  sensor-group-id
+  BFD-STATE sample-interval 30000\n  destination-group-id DG-GRPC\n !"'
+state: OK
+trace_id: tr-43ff50113d1a85dd506e5a9ab758588d
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

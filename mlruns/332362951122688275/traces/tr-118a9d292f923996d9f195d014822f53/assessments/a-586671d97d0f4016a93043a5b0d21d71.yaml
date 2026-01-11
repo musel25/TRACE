@@ -1,0 +1,47 @@
+assessment_id: a-586671d97d0f4016a93043a5b0d21d71
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:03:54.732Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:03:54.732Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0007732'
+  mlflow.assessment.sourceRunId: b3c9f5435d35459a876dff76c7de410f
+rationale: 'The model output partially meets the requirement by configuring telemetry
+  for ISIS on IOS XR with the specified server address 10.10.10.10 and port 5432,
+  and a sample interval of 60000ms. However, there are several discrepancies that
+  make it functionally different from the expected configuration:
+
+
+  1. Sensor-Group Name and Sensor-Path: The output uses sensor-group ISIS-TELEMETRY
+  with sensor-path Cisco-IOS-XR-clns-isis-oper:isis, while the expected config uses
+  ISIS-STATS and a more specific sensor-path Cisco-IOS-XR-clns-isis-oper:isis/instances/instance/topologies/topology/ipv4-routes/ipv4-route.
+  The expected config specifies detailed route telemetry, which is more precise.
+
+
+  2. Destination Group and Protocol: The model output defines the destination group
+  DG-GRPC using grpc protocol with no-tls and encoding ''self-describing-gpb'', which
+  is gRPC based encoding. The expected config uses destination group DG-ISIS with
+  tcp protocol and encoding json, which matches the user request ''tcp'' and no mention
+  of grpc.
+
+
+  3. Subscription block: The model''s subscription references destination-group-id
+  DG-GRPC, whereas expected references destination-group DG-ISIS. This affects the
+  data flow destination.
+
+
+  4. Formatting details: The expected response includes some additional ''!'' line
+  breaks and slightly different indentation, but these are minor.
+
+
+  Given these differences, the model output does not produce a functionally equivalent
+  configuration relevant to the user''s specific requirements concerning transport
+  protocol (tcp), encoding (json), and detailed ISIS telemetry path. Hence, it is
+  not acceptable as per the defined criteria.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 1165e21098543881
+trace_id: tr-118a9d292f923996d9f195d014822f53
+valid: true

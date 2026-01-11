@@ -1,0 +1,19 @@
+assessment_id: a-d1ee3ba86ded43ae9fe61a3e1ac6801d
+assessment_name: expected_response
+create_time: '2026-01-11T22:34:41.627Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group NETFLOW-OPER\n sensor-path Cisco-IOS-XR-flowspec-oper:flow\n
+    sensor-path Cisco-IOS-XR-netflow-oper:net-flow/nodes/node\n sensor-path Cisco-IOS-XR-netflow-oper:net-flow/nodes/node/exporters\n
+    !\n destination-group DG-NETFLOW\n address-family ipv4\n destination 192.0.2.115\n
+    port 57500\n encoding self-describing-gpb\n protocol grpc no-tls\n !\n subscription
+    SUB-NETFLOW\n sensor-group-id NETFLOW-OPER sample-interval 60000\n destination-group-id
+    DG-NETFLOW\n !\n!"
+last_update_time: '2026-01-11T22:34:41.627Z'
+metadata:
+  mlflow.assessment.sourceRunId: 9281d1d9c1ea46efbf3c8eefaba91f08
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 8a0f4efbedcd465e
+trace_id: tr-36386821f6e07cc06c52c49f9b49bd26
+valid: true

@@ -1,0 +1,29 @@
+assessment_id: a-1b2dae3e5baf410fad68a57d526bec08
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:02:16.431Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:02:16.431Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.000634'
+  mlflow.assessment.sourceRunId: ad5677e11cab4faf8cd19a078837eeb8
+rationale: 'The model output has several discrepancies from the expected configuration.
+  First, the sensor group name and sensor-paths differ: the output uses ''BFD-STATE''
+  with a sensor-path related to ''bundlemgr-oper'', which is unrelated to BFD operational
+  data, whereas the expected config uses ''BFD-STATS'' with sensor-paths ''Cisco-IOS-XR-ip-bfd-oper:bfd/counters''
+  and ''Cisco-IOS-XR-ip-bfd-oper:bfd/sessions'' that directly reflect BFD data. Second,
+  the destination-group name differs: output uses ''DG-GRPC'' while expected uses
+  ''DG-BFD''. Third, the protocol and TLS settings are incorrect; output uses ''protocol
+  grpc no-tls'' but the prompt and expected config require ''grpc tls''. Fourth, the
+  encoding is ''self-describing-gpb'' in output but expected is ''json''. Fifth, the
+  syntax and grouping of the destination are inconsistent: output specifies address-family
+  ipv4 with separate destination and port lines, while expected embeds IP and port
+  in address-family line. Overall, the model output does not meet the prompt requirements
+  for streaming BFD data with grpc tls to the correct destination with proper sensor
+  paths and encoding, thus is not functionally equivalent or acceptable.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: e2acf72f9e574f7a
+trace_id: tr-a0ee89aed453dd324b0dbb418d5288f1
+valid: true

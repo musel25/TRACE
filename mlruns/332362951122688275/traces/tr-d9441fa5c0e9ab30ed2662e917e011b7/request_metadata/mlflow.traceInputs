@@ -1,0 +1,1 @@
+{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration for multicast (PIM/IGMP) operational monitoring (neighbors, groups, interfaces). Use gRPC with no TLS. Server 192.0.2.116 port 57500. Choose relevant sensor-paths."}

@@ -1,0 +1,27 @@
+assessment_id: a-0fdede72587d43369e25b7814731da3c
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:03:25.225Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:03:25.225Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005892'
+  mlflow.assessment.sourceRunId: 8121baaa32ee4dc68f63fa101b0e5c93
+rationale: 'The model output does not match the expected configuration both in terms
+  of structure and specific details. The model output defines a sensor-group ''INTERFACE-PROTOCOL''
+  with the sensor-path ''Cisco-IOS-XR-um-telemetry-model-driven-oper:interfaces/interface''
+  and uses encoding ''self-describing-gpb'' and protocol ''grpc no-tls'' on destination-group
+  ''DG-GRPC''. The expected configuration uses sensor-group ''Interface-STATS'' with
+  sensor-path ''Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/generic-counters'',
+  encoding ''json'', and protocol ''tcp'' on destination-group ''DG-Interface'' to
+  IP ''172.16.1.10'' port 5432. The prompt specifically requests ''encoding: json''
+  and ''protocol: tcp'' and server IP and port as provided, which the expected config
+  reflects but the model output does not. Furthermore, the sensor-paths are completely
+  different, and the model output uses ''grpc'' protocol instead of the requested
+  ''tcp''. Thus, the model output is not functionally equivalent to the expected response.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 1825bc5430beb45f
+trace_id: tr-683514f2ceb81f9d7914c120c8dcd19f
+valid: true

@@ -1,0 +1,25 @@
+assessment_id: a-f27fb8f1d98b4aaeadad23ea1ef25691
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:03:23.121Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:03:23.121Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005228'
+  mlflow.assessment.sourceRunId: 8121baaa32ee4dc68f63fa101b0e5c93
+rationale: The model output does not match the expected configuration in critical
+  aspects. The sensor-group name and sensor-path used are different; the model output
+  uses 'EVPN' and 'Cisco-IOS-XR-evpn-oper:evpn/active/instances/instance' whereas
+  the expected uses 'EVPN-STATS' and 'Cisco-IOS-XR-evpn-oper:evpn/nodes/node/evi-detail'.
+  The destination group name differs ('DG-GRPC' vs 'DG-EVPN'), and the protocol and
+  encoding are also different. The user specifically requested TCP protocol and a
+  sample interval of 30000ms; the model uses gRPC with 'no-tls' and encoding 'self-describing-gpb',
+  while the expected uses TCP and JSON encoding, aligning with the user's request.
+  Due to these differences in sensor paths, destination group, protocol, and encoding,
+  the model output is not functionally equivalent to the expected reference.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 693dffbc6c6fa611
+trace_id: tr-5ab33edf6e595ed3a8b317fa18d0752b
+valid: true

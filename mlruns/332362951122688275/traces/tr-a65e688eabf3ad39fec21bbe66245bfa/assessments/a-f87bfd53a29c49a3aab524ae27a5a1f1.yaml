@@ -1,0 +1,19 @@
+assessment_id: a-f87bfd53a29c49a3aab524ae27a5a1f1
+assessment_name: expected_response
+create_time: '2026-01-11T22:34:41.652Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group FIB-OPER\n sensor-path Cisco-IOS-XR-fib-common-oper:fib/nodes/node/protocols\n
+    sensor-path Cisco-IOS-XR-fib-common-oper:fib/nodes/node/summary\n sensor-path
+    Cisco-IOS-XR-fib-common-oper:fib/nodes/node/statistics\n !\n destination-group
+    DG-FIB\n address-family ipv4\n destination 192.0.2.112\n port 57500\n encoding
+    self-describing-gpb\n protocol grpc no-tls\n !\n subscription SUB-FIB\n sensor-group-id
+    FIB-OPER sample-interval 60000\n destination-group-id DG-FIB\n !\n!"
+last_update_time: '2026-01-11T22:34:41.652Z'
+metadata:
+  mlflow.assessment.sourceRunId: 9281d1d9c1ea46efbf3c8eefaba91f08
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 702753a15f987c71
+trace_id: tr-a65e688eabf3ad39fec21bbe66245bfa
+valid: true

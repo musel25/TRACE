@@ -1,0 +1,27 @@
+assessment_id: a-880c362ad7a14f93b9b2a59bba654fa6
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:03:23.083Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:03:23.083Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005276'
+  mlflow.assessment.sourceRunId: 8121baaa32ee4dc68f63fa101b0e5c93
+rationale: 'The model output is not functionally equivalent to the expected configuration.
+  The model uses a different sensor-group name (''ENVIRONMENT-PROTOCOL'' instead of
+  ''Environment-STATS''), different sensor-path (''Cisco-IOS-XR-telemetry-model-driven-oper:environment/protocol''
+  versus ''Cisco-IOS-XR-sysadmin-envmon-ui:environment/oper''), and the encoding is
+  ''self-describing-gpb'' instead of the expected ''json''. Additionally, the subscription
+  sample-interval in the model output is 30000ms, but the expected is 60000ms. The
+  destination group structure also differs: the model output separates ''destination-group''
+  and usage, whereas the expected groups destination and subscription with slightly
+  different formats. Moreover, the model output includes a ''destination-group-id''
+  in subscription rather than ''destination-group''. Overall, these differences alter
+  the intent-relevant components and prevent the output from matching the requested
+  telemetry config specification.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: ba6c34ab6712303a
+trace_id: tr-0f844fef1931e9eea56c0941fbf24050
+valid: true

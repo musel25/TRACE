@@ -1,0 +1,18 @@
+assessment_id: a-d1c2bdf0ece644eba73e5c6b64bd2631
+assessment_name: expected_response
+create_time: '2026-01-11T21:54:52.542Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group Environment-STATS\n  sensor-path Cisco-IOS-XR-sysadmin-envmon-ui:environment/oper\n
+    !\n subscription SUB-Environment\n  sensor-group-id Environment-STATS sample-interval
+    60000\n  destination-group DG-Environment\n !\n destination-group DG-Environment\n
+    \ address-family ipv4 172.16.1.20 port 57000\n   encoding json\n   protocol grpc
+    no-tls\n  !\n !\n!"
+last_update_time: '2026-01-11T21:54:52.542Z'
+metadata:
+  mlflow.assessment.sourceRunId: 13db0ca91826476f90bebbedfed6af14
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 62801c4510435a10
+trace_id: tr-98ae43346c12ace8ae340454cac5b68c
+valid: true

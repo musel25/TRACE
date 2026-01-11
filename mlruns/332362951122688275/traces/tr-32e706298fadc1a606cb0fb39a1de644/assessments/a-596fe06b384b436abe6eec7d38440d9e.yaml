@@ -1,0 +1,24 @@
+assessment_id: a-596fe06b384b436abe6eec7d38440d9e
+assessment_name: xr_config_quality_score
+create_time: '2026-01-11T22:25:39.930Z'
+feedback:
+  value: 0.8
+last_update_time: '2026-01-11T22:25:39.930Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0006655999999999999'
+  mlflow.assessment.sourceRunId: 21a2f33ea7ee4489acfa524a02d73de2
+rationale: The output correctly configures model-driven telemetry for L2VPN xconnect/pseudowire
+  operational state using gRPC with no TLS to the specified server IP 192.0.2.110
+  and port 57500, matching the user request. The protocol and encoding are also correct.
+  The sensor-paths chosen are relevant to L2VPN xconnect and pseudowire operational
+  state, though they are more detailed and specific than the reference, which is acceptable.
+  The destination-group and subscription names differ but this is allowed. The sample-interval
+  differs (30000 ms vs 60000 ms) but the user did not specify a required interval,
+  so this is not penalized. Overall, the output meets the user requirements well with
+  minor differences in sensor-path granularity and naming.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: a65ed389b74d0fb1
+trace_id: tr-32e706298fadc1a606cb0fb39a1de644
+valid: true

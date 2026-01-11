@@ -1,0 +1,19 @@
+assessment_id: a-fa390c01e6054e8d916a6eadb751408c
+assessment_name: expected_response
+create_time: '2026-01-11T22:26:10.779Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group ACL-OPER\n sensor-path Cisco-IOS-XR-acl-oper:acl/active\n
+    sensor-path Cisco-IOS-XR-acl-oper:acl/active/vrfs/vrf\n sensor-path Cisco-IOS-XR-acl-oper:acl/active/interfaces/interface\n
+    !\n destination-group DG-ACL\n address-family ipv4\n destination 192.0.2.114\n
+    port 57500\n encoding self-describing-gpb\n protocol grpc no-tls\n !\n subscription
+    SUB-ACL\n sensor-group-id ACL-OPER sample-interval 60000\n destination-group-id
+    DG-ACL\n !\n!"
+last_update_time: '2026-01-11T22:26:10.779Z'
+metadata:
+  mlflow.assessment.sourceRunId: 9a392d98f0614011bb6720e96a440ea9
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 757750a9a491f0b2
+trace_id: tr-ea1fca65e27a984d654821d07fcd9eb1
+valid: true

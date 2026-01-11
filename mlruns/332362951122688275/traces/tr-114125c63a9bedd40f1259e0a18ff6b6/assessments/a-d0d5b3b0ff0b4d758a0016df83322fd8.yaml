@@ -1,0 +1,27 @@
+assessment_id: a-d0d5b3b0ff0b4d758a0016df83322fd8
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:03:24.378Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:03:24.378Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005292'
+  mlflow.assessment.sourceRunId: 8121baaa32ee4dc68f63fa101b0e5c93
+rationale: 'The model output and the expected configuration differ significantly in
+  several key aspects. The expected destination group is named ''DG-ISIS'' with address
+  family ipv4 set to ''10.10.10.20'' on port 57000, encoding ''json'', and protocol
+  ''tcp''. The model output uses destination group ''DG-GRPC'' with protocol ''grpc
+  no-tls'' and encoding ''self-describing-gpb'', which does not match the user''s
+  request for TCP with the specified destination and port. Furthermore, the sensor
+  group and sensor-paths differ: the model uses sensor group ''ISIS-IS-IS'' with sensor-path
+  ''intermediate-systems/intermediate-system'', whereas the expected uses ''ISIS-STATS''
+  with sensor-path ''interfaces''. The sample-intervals and subscription names also
+  differ. Given these discrepancies in destination protocol, encoding, sensor path,
+  and overall structure, the model output is not functionally equivalent to the expected
+  response.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 080aadfbe7c99b26
+trace_id: tr-114125c63a9bedd40f1259e0a18ff6b6
+valid: true

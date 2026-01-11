@@ -1,0 +1,18 @@
+assessment_id: a-e8de2d012a334f57ba8923e932da4907
+assessment_name: expected_response
+create_time: '2026-01-11T21:55:46Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group Interface-STATS\n  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/generic-counters\n
+    !\n subscription SUB-Interface\n  sensor-group-id Interface-STATS sample-interval
+    30000\n  destination-group DG-Interface\n !\n destination-group DG-Interface\n
+    \ address-family ipv4 172.16.1.10 port 5432\n   encoding json\n   protocol tcp\n
+    \ !\n !\n!"
+last_update_time: '2026-01-11T21:55:46Z'
+metadata:
+  mlflow.assessment.sourceRunId: 4b4fd7eb5a984168aca627c2020608c1
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: edcd465e36386821
+trace_id: tr-f6e07cc06c52c49f9b49bd26df57c59a
+valid: true

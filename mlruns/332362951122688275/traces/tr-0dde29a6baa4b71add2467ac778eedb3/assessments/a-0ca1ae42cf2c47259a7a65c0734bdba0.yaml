@@ -1,0 +1,19 @@
+assessment_id: a-0ca1ae42cf2c47259a7a65c0734bdba0
+assessment_name: expected_response
+create_time: '2026-01-11T21:56:07.243Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group Segment_Routing-STATS\n  sensor-path
+    Cisco-IOS-XR-segment-routing-ms-oper:srms\n  sensor-path Cisco-IOS-XR-infra-xtc-agent-oper:xtc/forwarding\n
+    !\n subscription SUB-Segment_Routing\n  sensor-group-id Segment_Routing-STATS
+    sample-interval 120000\n  destination-group DG-Segment_Routing\n !\n destination-group
+    DG-Segment_Routing\n  address-family ipv4 172.16.1.20 port 57400\n   encoding
+    gpb\n   protocol grpc no-tls\n  !\n !\n!"
+last_update_time: '2026-01-11T21:56:07.243Z'
+metadata:
+  mlflow.assessment.sourceRunId: b53c1fc9408e472f82b9dce5e5a93cd3
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: a748dbcfac619e63
+trace_id: tr-0dde29a6baa4b71add2467ac778eedb3
+valid: true

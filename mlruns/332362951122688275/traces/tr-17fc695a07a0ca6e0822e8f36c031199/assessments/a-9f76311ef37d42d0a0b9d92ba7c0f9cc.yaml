@@ -1,0 +1,19 @@
+assessment_id: a-9f76311ef37d42d0a0b9d92ba7c0f9cc
+assessment_name: expected_response
+create_time: '2026-01-11T21:53:35.964Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group OSPF-STATS\n  sensor-path Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/vrfs/vrf/database\n
+    \ sensor-path Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/vrfs/vrf/areas\n
+    !\n subscription SUB-OSPF\n  sensor-group-id OSPF-STATS sample-interval 30000\n
+    \ destination-group DG-OSPF\n !\n destination-group DG-OSPF\n  address-family
+    ipv4 10.20.20.10 port 57400\n   encoding self-describing-gpb\n   protocol tcp\n
+    \ !\n !\n!"
+last_update_time: '2026-01-11T21:53:35.964Z'
+metadata:
+  mlflow.assessment.sourceRunId: 83c4cf8278e64585916f659f404e71c9
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 3b8faa1837f8a88b
+trace_id: tr-17fc695a07a0ca6e0822e8f36c031199
+valid: true

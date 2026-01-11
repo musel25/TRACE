@@ -1,0 +1,19 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create telemetry model-driven configuration for Cisco
+  IOS XR 7.0.1 to stream routing information base (RIB) summary and route counters
+  (IPv4/IPv6). Use gRPC with no TLS. Telemetry server is 192.0.2.111 port 57500. Choose
+  relevant sensor-paths."}'
+request_time: '2026-01-11T22:26:39.278Z'
+response_preview: '"telemetry model-driven\n sensor-group RIB-ROUTE-COUNTERS\n  sensor-path
+  Cisco-IOS-XR-ip-rib-ipv4-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-counts\n  sensor-path
+  Cisco-IOS-XR-ip-rib-ipv6-oper:rib/vrfs/vrf/afs/af/safs/saf/ip-rib-route-counts\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 192.0.2.111\n    port
+  57500\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-RIB-ROUTE-COUNTERS\n  sensor-group-id RIB-ROUTE-COUNTERS sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-122c9a5601d7425638602ab696a402f2
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

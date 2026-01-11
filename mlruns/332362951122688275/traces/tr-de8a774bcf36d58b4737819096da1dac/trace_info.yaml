@@ -1,0 +1,19 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create IOS XR telemetry configuration to stream ISIS
+  data to 192.0.2.10 port 57500 using grpc tls."}'
+request_time: '2026-01-11T21:53:35.636Z'
+response_preview: '"telemetry model-driven\n sensor-group ISIS-INFO\n  sensor-path
+  Cisco-IOS-XR-infra-xtc-agent-oper:xtc/topology-nodes/topology-node/ipv4-link/remote-node-protocol-identifier/igp-information/igp/isis\n  sensor-path
+  Cisco-IOS-XR-infra-xtc-agent-oper:xtc/topology-nodes/topology-node/ipv6-link/remote-node-protocol-identifier/igp-information/igp/isis\n  sensor-path
+  Cisco-IOS-XR-infra-xtc-oper:pce/topology-nodes/topology-node/ipv4-link/remote-node-protocol-identifier/srgb-information/node-id/igp/isis\n  sensor-path
+  Cisco-IOS-XR-infra-xtc-oper:pce-topology/topology-nodes/topology-node/ipv4-link/remote-node-protocol-identifier/srgb-information/node-id/igp/isis\n  sensor-path
+  Cisco-IOS-XR-infra-xtc-oper:pce/topology-nodes/topology-node/ipv6-link/remote-node-protocol-identifier/srgb-information/node-id/igp/isis\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 192.0.2.10\n    port
+  57500\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-ISIS...'
+state: OK
+trace_id: tr-de8a774bcf36d58b4737819096da1dac
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

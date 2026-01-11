@@ -53,7 +53,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("-v", "--verbose", action="count", default=0, help="Increase verbosity (-v, -vv).")
     p.set_defaults(resume=True)
 
-    sub = p.add_subparsers(dest="mode", required=True)
+    sub = p.add_subparsers(dest="mode", required=False)
 
     # Catalog mode
     pc = sub.add_parser("catalog", help="Ingest sensor_catalog.jsonl entries")
@@ -88,7 +88,11 @@ def parse_args() -> argparse.Namespace:
         help="Stop after N chunks (for quick tests). Default: embed all.",
     )
 
-    return p.parse_args()
+    argv = sys.argv[1:]
+    if not any(arg in {"raw", "catalog"} for arg in argv):
+        if not any(arg in {"-h", "--help"} for arg in argv):
+            argv = ["raw", *argv]
+    return p.parse_args(argv)
 
 
 def main() -> int:

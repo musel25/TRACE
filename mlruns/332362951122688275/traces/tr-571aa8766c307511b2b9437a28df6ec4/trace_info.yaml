@@ -1,0 +1,20 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration
+  for multicast (PIM/IGMP) operational monitoring (neighbors, groups, interfaces).
+  Use gRPC with no TLS. Server 192.0.2.116 port 57500. Choose relevant sensor-paths."}'
+request_time: '2026-01-11T22:20:09.844Z'
+response_preview: '"telemetry model-driven\n sensor-group MULTICAST-OPERATIONAL\n  sensor-path
+  Cisco-IOS-XR-ipv4-pim-oper:pim/active/default-context/interface-statistics\n  sensor-path
+  Cisco-IOS-XR-ipv4-pim-oper:pim/active/default-context/interface-statistics/interface-statistic\n  sensor-path
+  Cisco-IOS-XR-ipv4-pim-oper:ipv6-pim/active/default-context/interface-statistics/interface-statistic\n  sensor-path
+  Cisco-IOS-XR-infra-xtc-agent-oper:xtc/p2mp-policies/p2mp-policy/pim-information\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 192.0.2.116\n    port
+  57500\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-MULTICAST-OP\n  sensor-group-id MULTICAST-OPERATIONAL sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-571aa8766c307511b2b9437a28df6ec4
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

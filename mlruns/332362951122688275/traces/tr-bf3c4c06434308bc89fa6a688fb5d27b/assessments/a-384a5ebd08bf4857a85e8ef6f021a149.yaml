@@ -1,0 +1,32 @@
+assessment_id: a-384a5ebd08bf4857a85e8ef6f021a149
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:02:56.412Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:02:56.412Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0007028'
+  mlflow.assessment.sourceRunId: 406ce4fb3e0847b2b1765e39001a672d
+rationale: 'The model output does not match the expected configuration in several
+  important aspects. The expected response specifies a sensor group named ISIS-STATS
+  with sensor-paths related to ''isis/instances/instance/topologies/topology/ipv4-routes/ipv4-route'',
+  and uses TCP protocol with JSON encoding. The destination group is DG-ISIS with
+  address-family ipv4 to 10.10.10.10 port 5432.
+
+
+  In contrast, the model output defines a sensor group ISIS-STATE with multiple distinct
+  sensor-paths not present in the expected config. It sets protocol grpc no-tls instead
+  of tcp, uses self-describing-gpb encoding instead of json, names the destination-group
+  DG-GRPC instead of DG-ISIS, and organizes the destination differently.
+
+
+  Essentially, the model-generated config is neither structurally equivalent nor functionally
+  aligned with the user''s prompt and the expected response. It configures gRPC telemetry
+  rather than TCP with JSON encoding as requested, and the sensor-paths do not match
+  the intended ISIS statistics data. Therefore, the output is not acceptable.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 6dadd6c795a76d79
+trace_id: tr-bf3c4c06434308bc89fa6a688fb5d27b
+valid: true

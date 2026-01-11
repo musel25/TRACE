@@ -1,0 +1,29 @@
+assessment_id: a-a2063913e41e4d4aa2d40a190dc33987
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:02:57.366Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:02:57.366Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0006904'
+  mlflow.assessment.sourceRunId: 406ce4fb3e0847b2b1765e39001a672d
+rationale: 'The model output is not functionally equivalent to the expected response
+  for several important reasons: 1) Sensor-groups differ significantly. The model
+  output uses ''OSPF-INFO'' with sensor-path ''Cisco-IOS-XR-infra-xtc-oper:pce-topology/...''
+  which is unrelated to OSPF statistics. The expected output uses ''OSPF-STATS'' and
+  sensor-paths for OSPF database and areas (''Cisco-IOS-XR-ipv4-ospf-oper:ospf/processes/process/vrfs/vrf/database''
+  and ''.../areas''). 2) The destination group names are different: model output uses
+  ''DG-GRPC'' with grpc protocol, contradicting the user''s request for tcp. The expected
+  uses ''DG-OSPF'' with protocol tcp as requested. 3) The model output specifies ''protocol
+  grpc no-tls'' which conflicts with the prompt''s ''protocol: tcp.'' 4) The destination
+  group placement and formatting differ; expected places destination-group after subscription
+  and configures address-family inline with destination and port. 5) The model output’s
+  sensor paths do not correspond to OSPF telemetry but to PCE topology data, irrelevant
+  to OSPF protocol config requested. Therefore, the model output does not meet the
+  functional intent and structure per the user''s request and is not acceptable.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: e9c349e03602f8ac
+trace_id: tr-10f1bc81448aaa9e66b2bc5b50c187fc
+valid: true

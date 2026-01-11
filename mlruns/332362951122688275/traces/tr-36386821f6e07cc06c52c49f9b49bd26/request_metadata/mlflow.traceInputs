@@ -1,0 +1,1 @@
+{"prompt": "Create Cisco IOS XR 7.0.1 telemetry model-driven configuration to monitor NetFlow/flow monitor operational statistics (exporter, cache, drops). Use gRPC with no TLS. Telemetry server 192.0.2.115 port 57500. Choose relevant sensor-paths."}

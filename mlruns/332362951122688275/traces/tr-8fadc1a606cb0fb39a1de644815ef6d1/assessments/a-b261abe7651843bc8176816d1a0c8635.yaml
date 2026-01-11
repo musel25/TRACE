@@ -1,0 +1,27 @@
+assessment_id: a-b261abe7651843bc8176816d1a0c8635
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:02:15.569Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:02:15.569Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005844'
+  mlflow.assessment.sourceRunId: ad5677e11cab4faf8cd19a078837eeb8
+rationale: The model output does not match the expected configuration in several critical
+  ways. The expected_response specifies monitoring of intermediate system to intermediate
+  system on Cisco IOS XR with sensor-path Cisco-IOS-XR-clns-isis-oper:isis/instances/instance/interfaces,
+  sensor group ISIS-STATS, and subscription SUB-ISIS, with a sample-interval of 60000,
+  encoding as json, and protocol tcp to destination 10.10.10.20 port 57000. The model
+  output instead uses sensor-group ISIS-IS-IS with sensor-path Cisco-IOS-XR-isis-oper:isis/instances/instance/levels/level/adjacencies/adjacency,
+  a subscription SUB-ISIS-IS-IS with sample-interval 30000, encoding self-describing-gpb,
+  and protocol grpc no-tls, and destination group DG-GRPC. Furthermore, the model
+  uses grpc protocol over tcp rather than plain tcp and uses a different sensor grouping
+  and subscription name. These discrepancies mean the model output is not functionally
+  equivalent to the expected configuration and would not meet the user's request for
+  the specified telemetry config.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: b74d0fb132e70629
+trace_id: tr-8fadc1a606cb0fb39a1de644815ef6d1
+valid: true

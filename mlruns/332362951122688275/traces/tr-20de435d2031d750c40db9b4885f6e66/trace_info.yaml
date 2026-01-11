@@ -1,0 +1,20 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create Cisco IOS XR 7.0.1 telemetry model-driven configuration
+  to monitor CPU and memory operational utilization (processes and summary). Use gRPC
+  with no TLS. Telemetry server 192.0.2.119 port 57500. Choose relevant sensor-paths."}'
+request_time: '2026-01-11T22:34:40.971Z'
+response_preview: '"telemetry model-driven\n sensor-group CPU-MEMORY-UTILIZATION\n  sensor-path
+  Cisco-IOS-XR-telemetry-model-driven-oper:telemetry-model-driven/process-cpu-utilization\n  sensor-path
+  Cisco-IOS-XR-telemetry-model-driven-oper:telemetry-model-driven/process-memory-utilization\n  sensor-path
+  Cisco-IOS-XR-telemetry-model-driven-oper:telemetry-model-driven/summary-cpu-utilization\n  sensor-path
+  Cisco-IOS-XR-telemetry-model-driven-oper:telemetry-model-driven/summary-memory-utilization\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 192.0.2.119\n    port
+  57500\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-CPU-MEMORY\n  sensor-group-id CPU-MEMORY-UTILIZATION sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-20de435d2031d750c40db9b4885f6e66
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

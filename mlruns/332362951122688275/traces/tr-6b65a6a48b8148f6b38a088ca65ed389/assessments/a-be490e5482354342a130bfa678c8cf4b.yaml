@@ -1,0 +1,18 @@
+assessment_id: a-be490e5482354342a130bfa678c8cf4b
+assessment_name: expected_response
+create_time: '2026-01-11T21:53:35.963Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group Optics-STATS\n  sensor-path Cisco-IOS-XR-controller-optics-oper:optics-oper/optics-ports/optics-port/optics-info\n
+    !\n subscription SUB-Optics\n  sensor-group-id Optics-STATS sample-interval 120000\n
+    \ destination-group DG-Optics\n !\n destination-group DG-Optics\n  address-family
+    ipv4 192.0.2.50 port 10000\n   encoding self-describing-gpb\n   protocol grpc
+    no-tls\n  !\n !\n!"
+last_update_time: '2026-01-11T21:53:35.963Z'
+metadata:
+  mlflow.assessment.sourceRunId: 83c4cf8278e64585916f659f404e71c9
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 72ff5d2a386ecbe0
+trace_id: tr-6b65a6a48b8148f6b38a088ca65ed389
+valid: true

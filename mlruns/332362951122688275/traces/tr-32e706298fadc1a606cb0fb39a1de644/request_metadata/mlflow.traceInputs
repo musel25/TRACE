@@ -1,0 +1,1 @@
+{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration to monitor L2VPN xconnect/pseudowire operational state. Use gRPC with no TLS. Telemetry server address is 192.0.2.110 with port 57500. Choose relevant sensor-paths."}

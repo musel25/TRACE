@@ -1,0 +1,20 @@
+assessment_id: a-8e8c86638a234335bd5c1bd7fb584c8a
+assessment_name: expected_response
+create_time: '2026-01-11T22:26:41.617Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group SYS-RESOURCES\n sensor-path Cisco-IOS-XR-procfs-oper:processes\n
+    sensor-path Cisco-IOS-XR-wdsysmon-fd-oper:system-monitoring/cpu-utilization\n
+    sensor-path Cisco-IOS-XR-wdsysmon-fd-oper:system-monitoring/memory-utilization\n
+    !\n destination-group DG-SYS\n address-family ipv4\n destination 192.0.2.119\n
+    port 57500\n encoding self-describing-gpb\n protocol grpc no-tls\n !\n subscription
+    SUB-SYS\n sensor-group-id SYS-RESOURCES sample-interval 30000\n destination-group-id
+    DG-SYS\n !\n!"
+last_update_time: '2026-01-11T22:26:41.617Z'
+metadata:
+  mlflow.assessment.sourceRunId: a7230b7cd5f2477fb1ab39c10b03462a
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: ef7ddc76b92da22b
+trace_id: tr-21df306f8a0b3c3336d8393a7c441fe7
+valid: true

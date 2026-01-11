@@ -1,0 +1,17 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration
+  to monitor L2VPN xconnect/pseudowire operational state. Use gRPC with no TLS. Telemetry
+  server address is 192.0.2.110 with port 57500. Choose relevant sensor-paths."}'
+request_time: '2026-01-11T22:27:13.239Z'
+response_preview: '"telemetry model-driven\n sensor-group L2VPN-XCONNECT-STATE\n  sensor-path
+  Cisco-IOS-XR-l2vpn-oper:l2vpn/xconnects/xconnect\n  sensor-path Cisco-IOS-XR-l2vpn-oper:l2vpn/pseudowires/pseudowire\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 192.0.2.110\n    port
+  57500\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-L2VPN-XCONNECT\n  sensor-group-id L2VPN-XCONNECT-STATE sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-bf7b539b0f9aea4b8acd4e10bc594585
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

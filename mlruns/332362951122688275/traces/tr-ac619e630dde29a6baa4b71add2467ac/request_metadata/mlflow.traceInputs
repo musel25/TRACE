@@ -1,0 +1,1 @@
+{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration for CEF/FIB operational monitoring (forwarding entries and statistics). Use gRPC with no TLS. Telemetry server 192.0.2.112 port 57500. Choose relevant sensor-paths."}

@@ -1,0 +1,17 @@
+assessment_id: a-133fe4bbbe2f4e9c8e5dedf5427603c2
+assessment_name: expected_response
+create_time: '2026-01-11T21:55:24.235Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group EVPN-STATS\n  sensor-path Cisco-IOS-XR-evpn-oper:evpn/nodes/node/evi-detail\n
+    !\n subscription SUB-EVPN\n  sensor-group-id EVPN-STATS sample-interval 30000\n
+    \ destination-group DG-EVPN\n !\n destination-group DG-EVPN\n  address-family
+    ipv4 10.10.10.10 port 57000\n   encoding json\n   protocol tcp\n  !\n !\n!"
+last_update_time: '2026-01-11T21:55:24.235Z'
+metadata:
+  mlflow.assessment.sourceRunId: c9e2e0d05724489ca5eda6bf41d745bf
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 32ebd6899be578c7
+trace_id: tr-81f631d4a39231a7d777a4774c66e0a8
+valid: true

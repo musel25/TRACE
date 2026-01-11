@@ -1,0 +1,43 @@
+assessment_id: a-369a1983b7d84e218b601d795080fbeb
+assessment_name: xr_config_passfail_vs_reference
+create_time: '2026-01-11T22:02:57.072Z'
+feedback:
+  value: false
+last_update_time: '2026-01-11T22:02:57.072Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0008419999999999999'
+  mlflow.assessment.sourceRunId: 406ce4fb3e0847b2b1765e39001a672d
+rationale: 'The model output does create an IOS XR telemetry configuration to stream
+  ISIS data to 192.0.2.10 on port 57500 using gRPC. However, there are significant
+  mismatches compared to the expected configuration:
+
+
+  1. Sensor-Group Name and Sensor-Paths: The model output uses "ISIS-INFO" with a
+  set of sensor-paths mostly from Cisco-IOS-XR-infra-xtc-agent-oper and Cisco-IOS-XR-infra-xtc-oper
+  modules, which do not correspond to the expected sensor-paths under "ISIS-STATS"
+  from Cisco-IOS-XR-clns-isis-oper with paths for isis/instances/instance/statistics
+  and neighbors.
+
+
+  2. Sample Interval: Model output uses 30000 ms; expected is 120000 ms.
+
+
+  3. Destination-Group and Destination Configuration: The model output destination
+  group is "DG-GRPC" with protocol "grpc no-tls" and encoding "self-describing-gpb",
+  while the expectation is "DG-ISIS" with protocol "grpc tls" and encoding "gpb".
+
+
+  4. Destination group address-family syntax differs; the expected response shows
+  the address and port in a single line with sub-indentation, while model output separates
+  these.
+
+
+  Because of these differences, particularly that the model output does not enable
+  TLS as requested in the prompt and does not match the expected sensor paths and
+  sample intervals, it is not functionally equivalent or acceptable.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: beb799193f22faf8
+trace_id: tr-23bed01d43cf2fde24933b83757750a9
+valid: true

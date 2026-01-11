@@ -1,0 +1,16 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create IOS XR telemetry configuration to stream Segment-Routing
+  data to 172.16.1.20 port 57400 using grpc no-tls."}'
+request_time: '2026-01-11T21:53:35.638Z'
+response_preview: '"telemetry model-driven\n sensor-group SEGMENT_ROUTING\n  sensor-path
+  Cisco-IOS-XR-mpls-te-oper:mpls-te/segment-routing/sr-node-infos/sr-node-info/sr-node-info\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 172.16.1.20\n    port
+  57400\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB_SEGMENT_ROUTING\n  sensor-group-id SEGMENT_ROUTING sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-0b1f9163ce9ff57f43b7a3a69a8dca03
+trace_location:
+  mlflow_experiment:
+    experiment_id: '332362951122688275'
+  type: MLFLOW_EXPERIMENT

@@ -1,0 +1,19 @@
+assessment_id: a-90314cc4569c421ea254849e9362947e
+assessment_name: expected_response
+create_time: '2026-01-11T22:35:10.744Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group L2VPN-XCONNECT-OPER\n sensor-path
+    Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/xconnects\n sensor-path Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/pseudowires\n
+    sensor-path Cisco-IOS-XR-l2vpn-oper:l2vpnv2/active/bridge-domains\n !\n destination-group
+    DG-L2VPN\n address-family ipv4\n destination 192.0.2.110\n port 57500\n encoding
+    self-describing-gpb\n protocol grpc no-tls\n !\n subscription SUB-L2VPN\n sensor-group-id
+    L2VPN-XCONNECT-OPER sample-interval 60000\n destination-group-id DG-L2VPN\n !\n!"
+last_update_time: '2026-01-11T22:35:10.744Z'
+metadata:
+  mlflow.assessment.sourceRunId: 902c62ed69144bef8d01d4e7ae7d486d
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 71710434134c6c92
+trace_id: tr-ec5b227cdfde4fbf3ff350bf766ecb15
+valid: true
