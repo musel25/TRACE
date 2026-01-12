@@ -1,0 +1,25 @@
+assessment_id: a-55644b96b7694b8686fe46aa764aa050
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T13:25:38.229Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T13:25:38.229Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0007616'
+  mlflow.assessment.sourceRunId: bffb9dd96e6648fea4d8f1b0c3679bbe
+rationale: 'The candidate config uses the correct IP (192.0.2.196), port (57500),
+  transport (grpc no-tls), and encoding (self-describing-gpb), meeting the hard requirements.
+  However, the sensor paths differ significantly: the candidate includes many detailed
+  inventory paths but does not include the platform slot instance state sensor path
+  as requested. The reference expects two specific sensor paths: inventory entities
+  and platform slot instance state, while the candidate only covers inventory-related
+  paths extensively. Sample interval is acceptable (600000 ms = 10 minutes). The naming
+  and ordering differences are acceptable. Overall, the candidate partially fulfills
+  the request but misses the platform slot instance state sensor path, leading to
+  a moderate score.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 8fb5d27bbeb79919
+trace_id: tr-3f22faf823bed01d43cf2fde24933b83
+valid: true

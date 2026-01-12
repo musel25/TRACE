@@ -1,0 +1,18 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create Cisco IOS XR 7.0.1 MDT configuration for hardware
+  inventory/state: stream inventory entities and platform slot instance state. Use
+  gRPC no TLS. Collector 192.0.2.196 port 57500. Sample every 10 minutes."}'
+request_time: '2026-01-12T13:25:47.811Z'
+response_preview: '{"response": "telemetry model-driven\n sensor-group INVENTORY-PLATFORM-STATE\n  sensor-path
+  Cisco-IOS-XR-invmgr-oper:inventory/racks/rack/entity/slot/tsi1s/tsi1/tsi2s/tsi2/tsi3s/tsi3/tsi4s/tsi4/tsi5s/tsi5/tsi6s/tsi6/tsi7s\n  sensor-path
+  Cisco-IOS-XR-sdr-invmgr-diag-oper:diag/racks/rack/slots/slot/instances\n !\n destination-group
+  DG-GRPC\n  address-family ipv4\n   destination 192.0.2.196\n    port 57500\n    encoding
+  self-describing-gpb\n    protocol grpc no-tls\n !\n subscription SUB-INVENTORY-PLATFORM-STATE\n  sensor-group-id
+  INVENTORY-PLATFORM-STATE sample-interval 600000\n  destination-group-id DG-GRPC\n
+  !"}'
+state: OK
+trace_id: tr-382567b85cabcc97663f1c97956269f0
+trace_location:
+  mlflow_experiment:
+    experiment_id: '877771606244311560'
+  type: MLFLOW_EXPERIMENT

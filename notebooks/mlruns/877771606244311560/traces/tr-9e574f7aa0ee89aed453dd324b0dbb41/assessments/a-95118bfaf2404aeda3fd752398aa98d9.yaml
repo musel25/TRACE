@@ -1,0 +1,22 @@
+assessment_id: a-95118bfaf2404aeda3fd752398aa98d9
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T13:24:27.619Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T13:24:27.619Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.000496'
+  mlflow.assessment.sourceRunId: 28f883389a9d49b88970381d117fa0b9
+rationale: The candidate config uses the correct IP (192.0.2.196), port (57500), transport
+  (grpc no-tls), and encoding (self-describing-gpb), which meets the hard requirements.
+  However, the sensor-paths differ significantly from the expected ones; the candidate
+  uses Cisco-IOS-XR-cmproxy-oper paths instead of Cisco-IOS-XR-invmgr-oper and Cisco-IOS-XR-platform-oper
+  paths as requested. The sensor-group and destination-group names differ but that
+  is acceptable. The sample interval is correctly set to 600000 ms (10 minutes). Due
+  to the sensor-path mismatch, the score is low despite correct transport and addressing.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: dc98d2c1e2acf72f
+trace_id: tr-9e574f7aa0ee89aed453dd324b0dbb41
+valid: true

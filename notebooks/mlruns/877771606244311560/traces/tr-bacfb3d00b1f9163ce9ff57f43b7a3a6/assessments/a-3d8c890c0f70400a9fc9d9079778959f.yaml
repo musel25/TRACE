@@ -1,0 +1,24 @@
+assessment_id: a-3d8c890c0f70400a9fc9d9079778959f
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T13:24:17.123Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T13:24:17.123Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005092'
+  mlflow.assessment.sourceRunId: 710022e351a9416689fdb2caaa6b9c65
+rationale: 'The candidate config correctly uses gRPC no TLS, the correct IP (192.0.2.196),
+  and port (57500), and the encoding self-describing-gpb, meeting the hard requirements.
+  However, the sensor-paths differ significantly from the expected ones: the candidate
+  uses ''inventory/entitlements/entity'' and ''inventory/platform/slot/state'' which
+  are not clearly related to the expected ''Cisco-IOS-XR-invmgr-oper:inventory/entities/entity''
+  and ''Cisco-IOS-XR-platform-oper:platform/racks/rack/slots/slot/instances/instance/state''.
+  The candidate''s sensor-paths are less specific and may not capture the requested
+  hardware inventory/state data accurately. Naming and ordering differences are acceptable,
+  but the sensor-path mismatch reduces the score.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 89463e85759cde66
+trace_id: tr-bacfb3d00b1f9163ce9ff57f43b7a3a6
+valid: true

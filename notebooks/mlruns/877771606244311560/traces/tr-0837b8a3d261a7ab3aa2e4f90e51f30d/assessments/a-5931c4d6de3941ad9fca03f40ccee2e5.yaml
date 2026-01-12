@@ -1,0 +1,23 @@
+assessment_id: a-5931c4d6de3941ad9fca03f40ccee2e5
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T13:25:12.728Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T13:25:12.728Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004584'
+  mlflow.assessment.sourceRunId: b0d064e44a374e99a8b4a8c8991eee01
+rationale: 'The candidate config correctly uses gRPC no TLS, IP 192.0.2.196, port
+  57500, and self-describing-gpb encoding, meeting the hard requirements. However,
+  the sensor-paths differ significantly from the expected ones: candidate includes
+  broader inventory and sdr-inventory paths, while the expectation specifies precise
+  inventory entities and platform slot instance state paths. The destination group
+  naming and structure also differ, but this is less critical. Overall, the config
+  is mostly correct but sensor-paths are not closely aligned with the request, warranting
+  a moderate score.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 50c187fcce177b4e
+trace_id: tr-0837b8a3d261a7ab3aa2e4f90e51f30d
+valid: true

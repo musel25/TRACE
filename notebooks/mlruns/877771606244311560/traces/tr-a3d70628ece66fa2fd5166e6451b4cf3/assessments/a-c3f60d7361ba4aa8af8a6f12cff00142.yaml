@@ -1,0 +1,22 @@
+assessment_id: a-c3f60d7361ba4aa8af8a6f12cff00142
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T13:25:04.504Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T13:25:04.504Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004612'
+  mlflow.assessment.sourceRunId: 84d8209bf2e54f9299e81506ca261717
+rationale: 'The candidate config correctly uses gRPC no-tls, IP 192.0.2.196, port
+  57500, and encoding self-describing-gpb, meeting the hard requirements. However,
+  the sensor-paths differ: candidate uses ''inventory'' and ''diag/racks/rack/slots''
+  while expectation specifies ''inventory/entities/entity'' and ''platform/racks/rack/slots/slot/instances/instance/state''.
+  The candidate''s sensor-paths are related to hardware inventory but do not exactly
+  match the expected detailed paths, which is a moderate deviation. Naming and ordering
+  differences are acceptable.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 8e944239b02b61c4
+trace_id: tr-a3d70628ece66fa2fd5166e6451b4cf3
+valid: true

@@ -1,0 +1,27 @@
+assessment_id: a-f15ebfb3c0fb4903ada8a6c5833f694e
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T13:23:50.591Z'
+feedback:
+  value: 0.7
+last_update_time: '2026-01-12T13:23:50.591Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0006272'
+  mlflow.assessment.sourceRunId: d669bf1b41cf4f40bb13e058bf3499b0
+rationale: 'The candidate config correctly uses the specified IP (192.0.2.196), port
+  (57500), transport (grpc no-tls), and encoding (self-describing-gpb), fulfilling
+  the hard requirements. The sample interval is set to 600000 ms (10 minutes), which
+  matches the request. However, the sensor-paths differ from the expectation: the
+  candidate uses ''Cisco-IOS-XR-plat-chas-invmgr-oper:inventory/entities/entity''
+  and ''platform/slot-instances/slot-instance'' while the expectation uses ''Cisco-IOS-XR-invmgr-oper:inventory/entities/entity''
+  and ''Cisco-IOS-XR-platform-oper:platform/racks/rack/slots/slot/instances/instance/state''.
+  The candidate''s sensor-paths are related to hardware inventory and platform slot
+  instance state but are not exactly the same and may represent different data models
+  or hierarchy. The naming of sensor-group and destination-group differ but this is
+  acceptable. Overall, the config meets the main requirements but the sensor-paths
+  are not fully aligned with the reference, so a moderate score is given.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 815ef6d13b8faa18
+trace_id: tr-37f8a88b17fc695a07a0ca6e0822e8f3
+valid: true

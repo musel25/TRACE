@@ -1,0 +1,22 @@
+assessment_id: a-340d8096cb2d4d83b760f001683811f9
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T13:24:09.261Z'
+feedback:
+  value: 0.2
+last_update_time: '2026-01-12T13:24:09.261Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004276'
+  mlflow.assessment.sourceRunId: bcbaee67810f4217a528ebaec30844a6
+rationale: The candidate config uses the correct IP, port, transport (grpc no-tls),
+  and encoding as requested. However, the sensor-paths are unrelated to the user's
+  request for hardware inventory and platform slot instance state; instead, it configures
+  unrelated sensor-paths for hardware-module-port-mode. The destination group and
+  subscription names differ but that is acceptable. The sample interval is close enough.
+  Due to incorrect sensor-paths, the score is low despite correct transport and destination
+  settings.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 17be31111a2a73ed
+trace_id: tr-562b0f79c37459eef50bea63371ecd7b
+valid: true

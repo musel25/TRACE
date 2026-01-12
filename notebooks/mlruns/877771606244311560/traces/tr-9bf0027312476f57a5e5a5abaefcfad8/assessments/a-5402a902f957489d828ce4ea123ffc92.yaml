@@ -1,0 +1,19 @@
+assessment_id: a-5402a902f957489d828ce4ea123ffc92
+assessment_name: expected_response
+create_time: '2026-01-12T13:24:55.095Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group INV-OPER\n  sensor-path Cisco-IOS-XR-invmgr-oper:inventory/entities/entity\n
+    \ sensor-path Cisco-IOS-XR-platform-oper:platform/racks/rack/slots/slot/instances/instance/state\n
+    !\n subscription SUB-INV\n  sensor-group-id INV-OPER sample-interval 600000\n
+    \ destination-group-id DG-INV\n !\n destination-group DG-INV\n  address-family
+    ipv4 192.0.2.196 port 57500\n   encoding self-describing-gpb\n   protocol grpc
+    no-tls\n  !\n !\n!"
+last_update_time: '2026-01-12T13:24:55.095Z'
+metadata:
+  mlflow.assessment.sourceRunId: c836e611154b4e8a85458e340be3d41a
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: 2bcfbe01a28defe3
+trace_id: tr-9bf0027312476f57a5e5a5abaefcfad8
+valid: true

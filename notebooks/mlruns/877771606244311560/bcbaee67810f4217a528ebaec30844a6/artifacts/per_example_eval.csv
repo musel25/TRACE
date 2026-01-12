@@ -1,0 +1,32 @@
+trace_id,prompt,candidate,expected,score,rationale
+tr-562b0f79c37459eef50bea63371ecd7b,Create Cisco IOS XR 7.0.1 MDT configuration for hardware inventory/state: stream inventory entities and platform slot instance state. Use gRPC no TLS. Collector 192.0.2.196 port 57500. Sample every 10 minutes.,"telemetry model-driven
+ sensor-group HW-INVENTORY-STATE
+  sensor-path Cisco-IOS-XR-asr9k-lc-pwrglide-cfg:hardware-module-port-mode/config-mode
+  sensor-path Cisco-IOS-XR-asr9k-lc-pwrglide-cfg:hardware-module-port-mode/config-mode/node/port-mode
+ !
+ destination-group DG-GRPC
+  address-family ipv4
+   destination 192.0.2.196
+    port 57500
+    encoding self-describing-gpb
+    protocol grpc no-tls
+ !
+ subscription SUB-HW-INVENTORY-STATE
+  sensor-group-id HW-INVENTORY-STATE sample-interval 600000
+  destination-group-id DG-GRPC
+ !","telemetry model-driven
+ sensor-group INV-OPER
+  sensor-path Cisco-IOS-XR-invmgr-oper:inventory/entities/entity
+  sensor-path Cisco-IOS-XR-platform-oper:platform/racks/rack/slots/slot/instances/instance/state
+ !
+ subscription SUB-INV
+  sensor-group-id INV-OPER sample-interval 600000
+  destination-group-id DG-INV
+ !
+ destination-group DG-INV
+  address-family ipv4 192.0.2.196 port 57500
+   encoding self-describing-gpb
+   protocol grpc no-tls
+  !
+ !
+!",0.2,"The candidate config uses the correct IP, port, transport (grpc no-tls), and encoding as requested. However, the sensor-paths are unrelated to the user's request for hardware inventory and platform slot instance state; instead, it configures unrelated sensor-paths for hardware-module-port-mode. The destination group and subscription names differ but that is acceptable. The sample interval is close enough. Due to incorrect sensor-paths, the score is low despite correct transport and destination settings."

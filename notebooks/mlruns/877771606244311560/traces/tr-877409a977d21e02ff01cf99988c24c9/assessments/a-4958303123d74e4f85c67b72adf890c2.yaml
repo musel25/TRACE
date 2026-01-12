@@ -1,0 +1,22 @@
+assessment_id: a-4958303123d74e4f85c67b72adf890c2
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T13:26:15.757Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T13:26:15.757Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.00046199999999999995'
+  mlflow.assessment.sourceRunId: 752947195729418a9fad1657fbb13858
+rationale: The candidate config correctly uses the specified IP (192.0.2.196), port
+  (57500), transport (grpc no-tls), and encoding (self-describing-gpb), fulfilling
+  the hard requirements. However, the sensor-paths differ significantly from the expected
+  ones; the candidate's sensor-paths are more complex and do not clearly match the
+  requested hardware inventory and platform slot instance state paths. The naming
+  and ordering differences are acceptable, but the sensor-paths are not clearly aligned
+  with the request, leading to a moderate penalty.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: f89897b9405cacec
+trace_id: tr-877409a977d21e02ff01cf99988c24c9
+valid: true

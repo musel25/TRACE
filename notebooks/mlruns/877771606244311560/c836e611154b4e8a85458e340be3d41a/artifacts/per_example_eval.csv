@@ -1,0 +1,33 @@
+trace_id,prompt,candidate,expected,score,rationale
+tr-9bf0027312476f57a5e5a5abaefcfad8,Create Cisco IOS XR 7.0.1 MDT configuration for hardware inventory/state: stream inventory entities and platform slot instance state. Use gRPC no TLS. Collector 192.0.2.196 port 57500. Sample every 10 minutes.,"telemetry model-driven
+ sensor-group INVENTORY-STATE
+  sensor-path Cisco-IOS-XR-invmgr-oper:inventory
+  sensor-path Cisco-IOS-XR-sdr-invmgr-oper:sdr-inventory
+  sensor-path Cisco-IOS-XR-sdr-invmgr-diag-oper:diag/racks/rack/slots
+ !
+ destination-group DG-GRPC
+  address-family ipv4
+   destination 192.0.2.196
+    port 57500
+    encoding self-describing-gpb
+    protocol grpc no-tls
+ !
+ subscription INVENTORY-UPDATE
+  sensor-group-id INVENTORY-STATE sample-interval 600000
+  destination-group-id DG-GRPC
+ !","telemetry model-driven
+ sensor-group INV-OPER
+  sensor-path Cisco-IOS-XR-invmgr-oper:inventory/entities/entity
+  sensor-path Cisco-IOS-XR-platform-oper:platform/racks/rack/slots/slot/instances/instance/state
+ !
+ subscription SUB-INV
+  sensor-group-id INV-OPER sample-interval 600000
+  destination-group-id DG-INV
+ !
+ destination-group DG-INV
+  address-family ipv4 192.0.2.196 port 57500
+   encoding self-describing-gpb
+   protocol grpc no-tls
+  !
+ !
+!",0.6,"The candidate config correctly uses gRPC no TLS, IP 192.0.2.196, port 57500, and encoding self-describing-gpb, meeting the hard requirements. However, the sensor-paths differ: candidate includes broader inventory and SDR inventory paths, while the expectation specifies precise hardware inventory entities and platform slot instance state paths. The candidate's sensor-paths are related but not exactly matching the requested hardware inventory/state streams, leading to a partial match. Naming and ordering differences are acceptable."
