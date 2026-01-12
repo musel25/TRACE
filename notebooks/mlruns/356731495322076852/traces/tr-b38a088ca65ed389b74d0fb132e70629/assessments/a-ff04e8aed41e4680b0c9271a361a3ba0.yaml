@@ -1,0 +1,24 @@
+assessment_id: a-ff04e8aed41e4680b0c9271a361a3ba0
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:24:31.841Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T16:24:31.841Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005812'
+  mlflow.assessment.sourceRunId: 69b4515bfd5a4bfbbcf141b297c80e8d
+rationale: The candidate config correctly uses gRPC no TLS, the correct IP (192.0.2.182),
+  and port (57500), and sets sample-interval to 30000 ms as requested. However, the
+  sensor-paths differ significantly from the expected ones; the candidate uses 'ipv6-neighbor/host-addresses/host-address'
+  and 'ipv6-neighbor/interfaces/interface/state' instead of the expected 'ipv6-node-discovery/nodes/node/neighbor-interfaces/neighbor-interface/host-addresses/host-address'
+  and 'ipv6-node-discovery/nodes/node/interfaces/interface'. The sensor-group and
+  subscription names differ but that is acceptable. The encoding 'self-describing-gpb'
+  matches the expectation. Overall, the config meets transport and destination requirements
+  but the sensor-paths are not aligned with the expected telemetry data, which is
+  a key aspect, so the score is moderate.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 6b65a6a48b8148f6
+trace_id: tr-b38a088ca65ed389b74d0fb132e70629
+valid: true

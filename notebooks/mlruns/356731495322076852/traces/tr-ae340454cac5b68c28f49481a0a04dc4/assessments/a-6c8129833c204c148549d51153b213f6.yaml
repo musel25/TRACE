@@ -1,0 +1,23 @@
+assessment_id: a-6c8129833c204c148549d51153b213f6
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:50:50.385Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T15:50:50.385Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004904'
+  mlflow.assessment.sourceRunId: 21d0b2d984074febac2d8e84c69fffc3
+rationale: The candidate config correctly uses gRPC no TLS, the correct IP (192.0.2.182),
+  and port (57500), and sets the sample interval to 30000 ms (30 seconds). However,
+  the sensor-paths are generic and do not match the expected detailed IOS XR IPv6
+  ND operational paths, which are more specific and include the full YANG model prefixes.
+  The destination-group address-family is set to ipv6 in the candidate, whereas the
+  expectation uses ipv4, which is a minor discrepancy but notable. Overall, the core
+  transport and destination details are correct, but the sensor-paths are not aligned
+  with the expected IOS XR telemetry paths, leading to a partial score.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 98ae43346c12ace8
+trace_id: tr-ae340454cac5b68c28f49481a0a04dc4
+valid: true

@@ -1,0 +1,24 @@
+assessment_id: a-b3c5f155b18d4741a78b3700662bdb3f
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:09:30.834Z'
+feedback:
+  value: 0.7
+last_update_time: '2026-01-12T16:09:30.834Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005924'
+  mlflow.assessment.sourceRunId: a29cee9c3e2e4b848adec8b71561b277
+rationale: The candidate config correctly uses the specified IP (192.0.2.182), port
+  (57500), and transport protocol (grpc no-tls) with the correct encoding (self-describing-gpb).
+  The sample interval is 30000 ms (30 seconds), matching the request. However, the
+  sensor-paths differ significantly from the expected ones; the candidate uses 'ipv6-nd:ipv6-neighbor/ipv6-neighbor-addr/host-address'
+  and 'ipv6-nd:ipv6-neighbor/ipv6-neighbor-state', which are not aligned with the
+  expected 'Cisco-IOS-XR-ipv6-nd-oper:ipv6-node-discovery/nodes/node/neighbor-interfaces/neighbor-interface/host-addresses/host-address'
+  and interface state path. While the candidate's sensor-paths relate to IPv6 neighbor
+  discovery, they are not the exact or clearly equivalent paths requested, so a penalty
+  is applied. Naming and ordering differences are acceptable.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 23b8c1e9392456de
+trace_id: tr-3eb13b9046685257bdd640fb06671ad1
+valid: true

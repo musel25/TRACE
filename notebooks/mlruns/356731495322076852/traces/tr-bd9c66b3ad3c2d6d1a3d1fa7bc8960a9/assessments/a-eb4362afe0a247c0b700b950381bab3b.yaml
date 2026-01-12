@@ -1,0 +1,23 @@
+assessment_id: a-eb4362afe0a247c0b700b950381bab3b
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:24:18.016Z'
+feedback:
+  value: 0.2
+last_update_time: '2026-01-12T16:24:18.016Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0007096'
+  mlflow.assessment.sourceRunId: 63199c3fbc504d10b7029dc551bfb8b8
+rationale: The candidate config is a YANG module definition rather than an IOS XR
+  CLI telemetry configuration. It specifies the server IP, port, and gRPC no-tls transport
+  correctly, and the sample interval is approximately 2 minutes (120 seconds). However,
+  it lacks the required sensor-paths related to platform inventory and hardware state
+  as specified in the expectations. The sensor-paths in the candidate are generic
+  and do not match the detailed sensor-paths in the reference config. Therefore, it
+  meets some hard requirements (IP, port, transport) but fails on sensor-paths, resulting
+  in a low score.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 8b9d2434e465e150
+trace_id: tr-bd9c66b3ad3c2d6d1a3d1fa7bc8960a9
+valid: true

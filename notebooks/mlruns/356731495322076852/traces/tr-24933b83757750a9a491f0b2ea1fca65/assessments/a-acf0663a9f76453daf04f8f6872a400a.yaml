@@ -1,0 +1,22 @@
+assessment_id: a-acf0663a9f76453daf04f8f6872a400a
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:10:22.731Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T16:10:22.731Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004544'
+  mlflow.assessment.sourceRunId: 8926c76e73f54761b0547df2762d6ca7
+rationale: The candidate config uses the correct IP (192.0.2.124), port (57500), transport
+  (grpc no-tls), and encoding (self-describing-gpb), which meets the hard requirements.
+  However, the sensor-paths are unrelated to the requested platform inventory and
+  hardware state (FRU inventory entities + operational status). The candidate's sensor-paths
+  refer to telemetry-model-driven subscriptions and interfaces, not the expected inventory
+  and platform operational data. Naming and sample-interval are acceptable but irrelevant
+  due to incorrect sensor-paths.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 23bed01d43cf2fde
+trace_id: tr-24933b83757750a9a491f0b2ea1fca65
+valid: true

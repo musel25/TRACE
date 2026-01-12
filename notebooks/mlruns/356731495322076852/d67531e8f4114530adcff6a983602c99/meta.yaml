@@ -1,0 +1,14 @@
+artifact_uri: file:///home/musel/Documents/github/TRACE/notebooks/mlruns/356731495322076852/d67531e8f4114530adcff6a983602c99/artifacts
+end_time: 1768232994996
+entry_point_name: ''
+experiment_id: '356731495322076852'
+lifecycle_stage: active
+run_id: d67531e8f4114530adcff6a983602c99
+run_name: base|fixed_window_embeddings|k=5|t=0.0|chat=gpt-4.1-mini|emb=text-embedding-3-small
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1768232986025
+status: 3
+tags: []
+user_id: musel

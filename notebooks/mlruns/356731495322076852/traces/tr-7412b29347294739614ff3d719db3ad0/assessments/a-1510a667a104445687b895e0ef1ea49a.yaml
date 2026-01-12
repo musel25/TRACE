@@ -1,0 +1,24 @@
+assessment_id: a-1510a667a104445687b895e0ef1ea49a
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:24:51.601Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T16:24:51.601Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005139999999999999'
+  mlflow.assessment.sourceRunId: 197dd2a4db1f48e6afad445f47ce55a1
+rationale: The candidate config correctly uses gRPC with no TLS, the correct IP address
+  (192.0.2.124), and port (57500), and sets a 2-minute sample interval (120 seconds).
+  However, the encoding used is 'encode-gpb' instead of the expected 'self-describing-gpb'.
+  The sensor paths focus on 'platform-inventory/racks/rack/fru' and 'oper-status',
+  which are related to FRU inventory and operational status, but the expected config
+  includes broader platform inventory and hardware state sensor paths. The candidate's
+  sensor paths are related but less comprehensive and use a different YANG model namespace.
+  Overall, the hard requirements are mostly met except for encoding, and the sensor
+  paths are relevant but not fully aligned with expectations.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: d58842dea2bc372f
+trace_id: tr-7412b29347294739614ff3d719db3ad0
+valid: true

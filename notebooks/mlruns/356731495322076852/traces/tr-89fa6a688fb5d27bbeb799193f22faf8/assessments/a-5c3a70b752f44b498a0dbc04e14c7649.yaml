@@ -1,0 +1,24 @@
+assessment_id: a-5c3a70b752f44b498a0dbc04e14c7649
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:50:42.297Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T15:50:42.297Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005112'
+  mlflow.assessment.sourceRunId: ad0c0823f0824d6b94e26ef8351f5f34
+rationale: The candidate config correctly uses gRPC no TLS, the correct IP (192.0.2.182),
+  and port (57500), and the encoding self-describing-gpb, meeting the hard requirements.
+  However, the sensor-paths in the candidate are generic 'telemetry-model-driven-oper:host-addresses/host-address'
+  and 'telemetry-model-driven-oper:nd-interface-state', which do not match the expected
+  detailed Cisco IOS XR IPv6 ND paths. The sample interval is correct at 30000 ms.
+  The destination group naming and sensor group naming differ but are acceptable.
+  Overall, the candidate meets transport and destination requirements but the sensor
+  paths are not aligned with the expected IPv6 ND telemetry data, leading to a moderate
+  score.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: bf3c4c06434308bc
+trace_id: tr-89fa6a688fb5d27bbeb799193f22faf8
+valid: true

@@ -1,0 +1,24 @@
+assessment_id: a-adeb25864ef149509f30696f031b481d
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:10:23.466Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T16:10:23.466Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.000542'
+  mlflow.assessment.sourceRunId: 8926c76e73f54761b0547df2762d6ca7
+rationale: The candidate config correctly uses gRPC no-tls, the correct IP (192.0.2.182),
+  and port (57500), and sets sample-interval to 30000 ms (30 seconds). However, the
+  sensor-paths are from a different model (Cisco-IOS-XR-telemetry-model-driven-oper)
+  and do not match the expected IPv6 ND paths (Cisco-IOS-XR-ipv6-nd-oper). The destination-group
+  address-family is ipv6 in candidate but ipv4 in expectation, which is inconsistent.
+  The sensor-group and subscription names differ but that is acceptable. Overall,
+  the key hard requirements on IP, port, transport, and encoding are met, but the
+  sensor-paths are unrelated to the expected IPv6 ND telemetry data, leading to a
+  low score.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: e27a984d654821d0
+trace_id: tr-7fcd9eb1a7cad415366eb16f508ebad7
+valid: true

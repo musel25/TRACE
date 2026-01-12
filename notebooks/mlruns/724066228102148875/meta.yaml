@@ -1,0 +1,6 @@
+artifact_location: file:///home/musel/Documents/github/TRACE/notebooks/mlruns/724066228102148875
+creation_time: 1768235393084
+experiment_id: '724066228102148875'
+last_update_time: 1768235393084
+lifecycle_stage: active
+name: xr_hf_llm_judge_sweep

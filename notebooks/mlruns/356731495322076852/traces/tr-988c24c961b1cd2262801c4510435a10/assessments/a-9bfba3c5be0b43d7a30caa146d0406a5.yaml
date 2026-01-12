@@ -1,0 +1,22 @@
+assessment_id: a-9bfba3c5be0b43d7a30caa146d0406a5
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:50:49.867Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T15:50:49.867Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004568'
+  mlflow.assessment.sourceRunId: 21d0b2d984074febac2d8e84c69fffc3
+rationale: The candidate config correctly uses gRPC no-tls, IP 192.0.2.124, port 57500,
+  and a 2-minute sample interval, meeting the hard requirements. However, the sensor
+  paths differ significantly from the expected ones; the candidate uses telemetry-model-driven/platform-inventory/fru
+  paths, while the expectation is for platform inventory and hardware state paths
+  under different modules. The sensor-group and destination-group names differ but
+  that is acceptable. The sensor paths are related to platform inventory but not the
+  exact expected ones, so partial credit is given.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 77d21e02ff01cf99
+trace_id: tr-988c24c961b1cd2262801c4510435a10
+valid: true

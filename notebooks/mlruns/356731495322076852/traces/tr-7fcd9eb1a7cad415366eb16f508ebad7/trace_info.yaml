@@ -1,0 +1,19 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration
+  to stream IPv6 Neighbor Discovery host addresses (host-addresses/host-address) and
+  ND interface state. Use gRPC no TLS. Collector 192.0.2.182:57500. Sample every 30
+  seconds."}'
+request_time: '2026-01-12T16:10:17.837Z'
+response_preview: '"telemetry model-driven\n sensor-group ND-NEIGHBOR-DISCOVERY\n  sensor-path
+  Cisco-IOS-XR-telemetry-model-driven-oper:telemetry-model-driven/host-addresses/host-address\n  sensor-path
+  Cisco-IOS-XR-telemetry-model-driven-oper:telemetry-model-driven/nd-interface-states/nd-interface-state\n
+  !\n destination-group DG-GRPC\n  address-family ipv6\n   destination 192.0.2.182\n    port
+  57500\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  ND-STREAM\n  sensor-group-id ND-NEIGHBOR-DISCOVERY sample-interval 30000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-7fcd9eb1a7cad415366eb16f508ebad7
+trace_location:
+  mlflow_experiment:
+    experiment_id: '356731495322076852'
+  type: MLFLOW_EXPERIMENT

@@ -1,0 +1,26 @@
+assessment_id: a-b9995266ee8d4eff94d22702f72ffa20
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:24:19.592Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T16:24:19.592Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0006976'
+  mlflow.assessment.sourceRunId: 63199c3fbc504d10b7029dc551bfb8b8
+rationale: The candidate config correctly sets the collector IP (192.0.2.182), port
+  (57500), and uses gRPC no-tls as requested. It also configures sampling intervals
+  of 30 seconds. However, the sensor paths used in the candidate config (/ipv6-nd:ipv6-neighbor/ipv6-nd:host-addresses/ipv6-nd:host-address
+  and /ipv6-nd:ipv6-neighbor/ipv6-nd:interfaces/ipv6-nd:interface-state) do not match
+  the expected sensor paths from the reference config (Cisco-IOS-XR-ipv6-nd-oper:ipv6-node-discovery/nodes/node/neighbor-interfaces/neighbor-interface/host-addresses/host-address
+  and Cisco-IOS-XR-ipv6-nd-oper:ipv6-node-discovery/nodes/node/interfaces/interface).
+  The candidate also lacks the model-driven telemetry structure, sensor-group, subscription,
+  and destination-group constructs expected. The encoding is not explicitly specified
+  in the candidate config, which is a notable omission. Overall, while the transport
+  and collector details are correct, the sensor paths and telemetry structure are
+  not aligned with the expectations, leading to a low score.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 23b8c1e9392456de
+trace_id: tr-3eb13b9046685257bdd640fb06671ad1
+valid: true

@@ -1,0 +1,22 @@
+assessment_id: a-072cdc89d2dd441191e4dd17aba4519f
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:57:31.687Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T15:57:31.687Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004548'
+  mlflow.assessment.sourceRunId: 0503cdf82a8d4b4f95ec1ec63ea107c4
+rationale: The candidate config correctly uses gRPC no-tls, IP 192.0.2.124, port 57500,
+  and a 2-minute sample interval, meeting the hard requirements. However, the sensor-paths
+  differ significantly from the expectations; the candidate uses 'platform-inventory
+  / inventory-entity' and 'state/operational-status' while the expected config uses
+  more specific Cisco IOS XR model paths related to platform inventory and hardware
+  state. The candidate's sensor-paths are related but less specific and do not fully
+  match the expected model-driven paths, leading to a moderate score.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 8b9d2434e465e150
+trace_id: tr-bd9c66b3ad3c2d6d1a3d1fa7bc8960a9
+valid: true

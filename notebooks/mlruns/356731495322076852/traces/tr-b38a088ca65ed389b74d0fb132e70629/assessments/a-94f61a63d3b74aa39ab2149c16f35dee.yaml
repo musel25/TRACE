@@ -1,0 +1,24 @@
+assessment_id: a-94f61a63d3b74aa39ab2149c16f35dee
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:02:13.096Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T16:02:13.096Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.00054'
+  mlflow.assessment.sourceRunId: 9d7f5428b9744e8b8fe7e4c7e7da0c90
+rationale: The candidate config correctly uses the specified IP (192.0.2.182), port
+  (57500), transport (grpc no-tls), and encoding (self-describing-gpb), meeting the
+  hard requirements. The sample interval is also correctly set to 30000 ms (30 seconds).
+  However, the sensor-paths differ significantly from the expected ones; the candidate
+  uses 'Cisco-IOS-XR-ipv6-nd-cfg' paths which appear configuration-oriented, while
+  the expectation is operational data paths 'Cisco-IOS-XR-ipv6-nd-oper' with more
+  detailed hierarchy. The sensor-group and destination-group names differ but that
+  is acceptable. The sensor-paths in the candidate are related to IPv6 neighbor discovery
+  but not matching the expected operational data paths, which is a moderate issue.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 6b65a6a48b8148f6
+trace_id: tr-b38a088ca65ed389b74d0fb132e70629
+valid: true

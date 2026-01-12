@@ -1,0 +1,25 @@
+assessment_id: a-320c928be67e4f488bbcb1d6bc2e4729
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:25:30.533Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T16:25:30.533Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.000536'
+  mlflow.assessment.sourceRunId: 75c587858989407e9729f606cd4bc99c
+rationale: The candidate config correctly uses gRPC with no TLS, the correct IP address
+  (192.0.2.124), and port (57500), and the sample interval is approximately 2 minutes
+  (120000 ms). The encoding is self-describing-gpb as expected. However, the sensor-paths
+  differ significantly from the expected ones; the candidate uses 'telemetry-model-driven-oper:telemetry-model-driven/platform-inventory/fru'
+  and 'hardware-state' paths, whereas the expectation includes specific Cisco IOS
+  XR operational paths for inventory and platform data. The candidate's sensor-paths
+  are related to platform inventory and hardware state but do not match the expected
+  model-driven operational paths, which is a moderate mismatch. Naming and ordering
+  differences are acceptable. Overall, the candidate meets transport and destination
+  requirements but only partially matches sensor-path expectations.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 77d21e02ff01cf99
+trace_id: tr-988c24c961b1cd2262801c4510435a10
+valid: true

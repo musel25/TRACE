@@ -1,0 +1,24 @@
+assessment_id: a-4e16d967b02e485782b06b2e2bb13675
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:10:03.816Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T16:10:03.816Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005456'
+  mlflow.assessment.sourceRunId: 2ed1d47dc11f43d7996ec83317984e23
+rationale: The candidate config correctly uses gRPC no TLS, the correct IP (192.0.2.182),
+  and port (57500), and the encoding self-describing-gpb, meeting the hard requirements.
+  The sample interval is 30000 ms (30 seconds), which matches the request. However,
+  the sensor-paths differ significantly from the expected ones; the candidate uses
+  ipv6-nd:ipv6-neighbor/ipv6-neighbor-addr/host-address and ipv6-neighbor-state, which
+  are not clearly related to the expected Cisco-IOS-XR-ipv6-nd-oper paths for neighbor-interfaces
+  and host-addresses. The sensor-group and destination-group names differ but that
+  is acceptable. Overall, the config is mostly correct but the sensor-paths are not
+  aligned with the expected model, so partial credit is given.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: ab9099a435a240ae
+trace_id: tr-5af305535ec42e0829a3b2e95d65a441
+valid: true

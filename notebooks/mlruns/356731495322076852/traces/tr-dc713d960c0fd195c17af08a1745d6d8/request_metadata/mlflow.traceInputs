@@ -1,0 +1,1 @@
+{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry model-driven configuration for platform inventory + hardware state (FRU inventory entities + operational status). Use gRPC with no TLS. Server 192.0.2.124 port 57500. Use a 2-minute sample interval."}

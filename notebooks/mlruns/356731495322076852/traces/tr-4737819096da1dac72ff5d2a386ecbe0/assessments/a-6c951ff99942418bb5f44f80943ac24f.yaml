@@ -1,0 +1,23 @@
+assessment_id: a-6c951ff99942418bb5f44f80943ac24f
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:49:54.952Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T15:49:54.952Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.00048599999999999994'
+  mlflow.assessment.sourceRunId: d67531e8f4114530adcff6a983602c99
+rationale: 'The candidate config correctly uses gRPC with no TLS, the correct IP address
+  192.0.2.124, and port 57500, and sets a 2-minute sample interval. The encoding self-describing-gpb
+  is also correct. However, the sensor paths differ from the expected ones: candidate
+  uses ''platform-inventory/fru'' and ''platform-hardware-state/fru-oper'' while the
+  expectation is for ''inventory/entities'', ''inventory/summary'', and ''platforms/platform''.
+  These sensor paths are related to platform inventory and hardware state but are
+  not the exact expected paths, which is a moderate mismatch. Naming and ordering
+  differences are acceptable.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: de8a774bcf36d58b
+trace_id: tr-4737819096da1dac72ff5d2a386ecbe0
+valid: true

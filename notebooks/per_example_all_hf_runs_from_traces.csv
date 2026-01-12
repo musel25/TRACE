@@ -1,0 +1,1 @@
+trace_id,prompt,expected,candidate,score,rationale,run_id,run_name,hf_model_id,temperature,system_prompt_variant,use_4bit

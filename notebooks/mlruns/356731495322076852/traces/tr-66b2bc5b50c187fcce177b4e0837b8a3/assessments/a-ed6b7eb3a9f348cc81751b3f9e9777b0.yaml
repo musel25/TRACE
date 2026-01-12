@@ -1,0 +1,24 @@
+assessment_id: a-ed6b7eb3a9f348cc81751b3f9e9777b0
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:50:33.599Z'
+feedback:
+  value: 0.7
+last_update_time: '2026-01-12T15:50:33.599Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005128'
+  mlflow.assessment.sourceRunId: d5f9e10aa12c4087bed91ba3ab90ac24
+rationale: The candidate config correctly uses gRPC no-tls, the correct IP (192.0.2.182),
+  and port (57500), and sets the sample interval to 30000 ms (30 seconds). The encoding
+  is self-describing-gpb as expected. However, the sensor-paths in the candidate are
+  simplified and do not match the full YANG model paths in the expectation, which
+  are more specific and include the Cisco IOS XR module prefixes and full hierarchy.
+  The candidate's sensor-paths are related but less precise, missing the module and
+  node context. Naming and ordering differences are acceptable. Overall, the config
+  meets the hard requirements but the sensor-paths are not fully aligned with the
+  expected detailed paths, so a partial score is given.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 10f1bc81448aaa9e
+trace_id: tr-66b2bc5b50c187fcce177b4e0837b8a3
+valid: true

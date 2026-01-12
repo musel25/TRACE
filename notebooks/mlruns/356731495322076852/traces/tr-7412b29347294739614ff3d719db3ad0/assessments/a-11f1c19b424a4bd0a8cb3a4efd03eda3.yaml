@@ -1,0 +1,19 @@
+assessment_id: a-11f1c19b424a4bd0a8cb3a4efd03eda3
+assessment_name: expected_response
+create_time: '2026-01-12T15:50:13.732Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group INVENTORY-OPER\n sensor-path Cisco-IOS-XR-plat-chas-invmgr-oper:inventory/entities\n
+    sensor-path Cisco-IOS-XR-plat-chas-invmgr-oper:inventory/summary\n sensor-path
+    Cisco-IOS-XR-platforms-ofa-oper:platforms/platform\n !\n destination-group DG-INVENTORY\n
+    address-family ipv4\n destination 192.0.2.124\n port 57500\n encoding self-describing-gpb\n
+    protocol grpc no-tls\n !\n subscription SUB-INVENTORY\n sensor-group-id INVENTORY-OPER
+    sample-interval 120000\n destination-group-id DG-INVENTORY\n !\n!"
+last_update_time: '2026-01-12T15:50:13.732Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3b086e66668c4b2abc6a1a18da095961
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: d58842dea2bc372f
+trace_id: tr-7412b29347294739614ff3d719db3ad0
+valid: true

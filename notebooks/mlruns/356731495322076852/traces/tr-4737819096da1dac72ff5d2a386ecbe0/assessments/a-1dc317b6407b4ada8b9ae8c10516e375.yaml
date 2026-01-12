@@ -1,0 +1,26 @@
+assessment_id: a-1dc317b6407b4ada8b9ae8c10516e375
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:24:32.470Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T16:24:32.470Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005704'
+  mlflow.assessment.sourceRunId: 69b4515bfd5a4bfbbcf141b297c80e8d
+rationale: The candidate config correctly uses gRPC with no TLS, the correct IP (192.0.2.124),
+  and port (57500). The sample interval is set to 120 seconds (2 minutes), which matches
+  the request. However, the sensor-path in the candidate config is 'platform-inventory/fru'
+  which partially matches the request for platform inventory and hardware state (FRU
+  inventory entities + operational status), but it does not include all expected sensor-paths
+  such as 'inventory/entities', 'inventory/summary', and 'platforms/platform' as in
+  the reference. The candidate also omits encoding specification and protocol details
+  like 'encoding self-describing-gpb' and 'protocol grpc no-tls' explicitly, though
+  'no-tls' is present. Naming differences and ordering are acceptable. Overall, the
+  candidate meets the hard requirements but is incomplete in sensor-path coverage
+  and encoding details, resulting in a moderate score.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: de8a774bcf36d58b
+trace_id: tr-4737819096da1dac72ff5d2a386ecbe0
+valid: true

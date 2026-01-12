@@ -1,0 +1,17 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry model-driven configuration
+  for platform inventory + hardware state (FRU inventory entities + operational status).
+  Use gRPC with no TLS. Server 192.0.2.124 port 57500. Use a 2-minute sample interval."}'
+request_time: '2026-01-12T15:49:51.612Z'
+response_preview: '"telemetry model-driven\n sensor-group PLATFORM-HW-STATE\n  sensor-path
+  Cisco-IOS-XR-plat-chas-invmgr-oper:platform-inventory/fru\n  sensor-path Cisco-IOS-XR-plat-chas-invmgr-oper:platform-hardware-state/fru-oper\n
+  !\n destination-group DG-GRPC\n  address-family ipv4\n   destination 192.0.2.124\n    port
+  57500\n    encoding self-describing-gpb\n    protocol grpc no-tls\n !\n subscription
+  SUB-PLATFORM-HW-STATE\n  sensor-group-id PLATFORM-HW-STATE sample-interval 120000\n  destination-group-id
+  DG-GRPC\n !"'
+state: OK
+trace_id: tr-4737819096da1dac72ff5d2a386ecbe0
+trace_location:
+  mlflow_experiment:
+    experiment_id: '356731495322076852'
+  type: MLFLOW_EXPERIMENT

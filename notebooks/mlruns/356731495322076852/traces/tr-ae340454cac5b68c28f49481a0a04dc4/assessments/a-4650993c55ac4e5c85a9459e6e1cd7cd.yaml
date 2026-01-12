@@ -1,0 +1,21 @@
+assessment_id: a-4650993c55ac4e5c85a9459e6e1cd7cd
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:03:12.678Z'
+feedback:
+  value: 0.7
+last_update_time: '2026-01-12T16:03:12.678Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.00044399999999999995'
+  mlflow.assessment.sourceRunId: 9e3b5722c1ae4660974591d63be56898
+rationale: The candidate config correctly uses gRPC no-tls, the correct IP (192.0.2.182),
+  and port (57500), and sets the sample interval to 30000 ms (30 seconds). The encoding
+  is self-describing-gpb as expected. However, the sensor-paths are generic and do
+  not match the detailed IOS XR IPv6 ND operational paths specified in the expectations,
+  which are more precise and include the full YANG model paths. The candidate's sensor-paths
+  are related but less specific, so partial credit is given.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 98ae43346c12ace8
+trace_id: tr-ae340454cac5b68c28f49481a0a04dc4
+valid: true

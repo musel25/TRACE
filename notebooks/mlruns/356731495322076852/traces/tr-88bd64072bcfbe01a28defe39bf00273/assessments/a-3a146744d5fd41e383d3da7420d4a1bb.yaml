@@ -1,0 +1,23 @@
+assessment_id: a-3a146744d5fd41e383d3da7420d4a1bb
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:50:21.291Z'
+feedback:
+  value: 0.7
+last_update_time: '2026-01-12T15:50:21.291Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005127999999999999'
+  mlflow.assessment.sourceRunId: 9cc9179303a4487ea09c2f22886e9568
+rationale: The candidate config correctly uses the specified IP (192.0.2.182), port
+  (57500), transport (grpc no-tls), and encoding (self-describing-gpb). The sample
+  interval is 30000 ms (30 seconds), which matches the request. However, the sensor-paths
+  differ from the expected ones; the candidate uses shorter paths (ipv6-nd:ipv6-neighbor/neighbor/host-addresses/host-address
+  and interface-state) which are related but not the exact expected Cisco IOS XR operational
+  paths. The sensor-group and destination-group names differ but that is acceptable.
+  Overall, the config meets the hard requirements but the sensor-paths are not fully
+  aligned with the reference, so a partial penalty is applied.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 3eabedcbbaa80dd4
+trace_id: tr-88bd64072bcfbe01a28defe39bf00273
+valid: true

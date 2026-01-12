@@ -1,0 +1,14 @@
+artifact_uri: file:///home/musel/Documents/github/TRACE/notebooks/mlruns/724066228102148875/d8d27c66318642a780a083c305e2c451/artifacts
+end_time: 1768236588612
+entry_point_name: ''
+experiment_id: '724066228102148875'
+lifecycle_stage: active
+run_id: d8d27c66318642a780a083c305e2c451
+run_name: parent_sweep_hf
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1768236083976
+status: 4
+tags: []
+user_id: musel

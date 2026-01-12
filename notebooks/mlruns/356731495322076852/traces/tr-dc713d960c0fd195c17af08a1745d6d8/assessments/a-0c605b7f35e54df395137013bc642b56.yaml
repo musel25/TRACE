@@ -1,0 +1,24 @@
+assessment_id: a-0c605b7f35e54df395137013bc642b56
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:10:33.089Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T16:10:33.089Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005192'
+  mlflow.assessment.sourceRunId: 0f212b1eb15540f791aaacddb7523697
+rationale: The candidate config correctly uses gRPC no-tls, IP 192.0.2.124, port 57500,
+  and encoding self-describing-gpb, matching the hard requirements. The sample interval
+  is also close (120000 ms = 2 minutes). However, the sensor-paths differ significantly
+  from the expected ones; the candidate uses telemetry-model-driven/platform-inventory/fru
+  and fru/state, while the expectation is for inventory/entities, inventory/summary,
+  and platforms/platform. These sensor-paths are related to platform inventory and
+  hardware state but are not the same and may not fully meet the user's request for
+  FRU inventory entities plus operational status. Therefore, a partial score is given
+  due to correct transport and destination but differing sensor-paths.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 27209bdf1c11f735
+trace_id: tr-dc713d960c0fd195c17af08a1745d6d8
+valid: true

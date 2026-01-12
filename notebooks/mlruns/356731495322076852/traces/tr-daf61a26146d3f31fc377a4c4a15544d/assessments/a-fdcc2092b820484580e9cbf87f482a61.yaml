@@ -1,0 +1,18 @@
+assessment_id: a-fdcc2092b820484580e9cbf87f482a61
+assessment_name: expected_response
+create_time: '2026-01-12T15:50:12.855Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group IPV6-ND\n  sensor-path Cisco-IOS-XR-ipv6-nd-oper:ipv6-node-discovery/nodes/node/neighbor-interfaces/neighbor-interface/host-addresses/host-address\n
+    \ sensor-path Cisco-IOS-XR-ipv6-nd-oper:ipv6-node-discovery/nodes/node/interfaces/interface\n
+    !\n subscription SUB-ND\n  sensor-group-id IPV6-ND sample-interval 30000\n  destination-group-id
+    DG-ND\n !\n destination-group DG-ND\n  address-family ipv4 192.0.2.182 port 57500\n
+    \  encoding self-describing-gpb\n   protocol grpc no-tls\n  !\n !\n!"
+last_update_time: '2026-01-12T15:50:12.855Z'
+metadata:
+  mlflow.assessment.sourceRunId: 3b086e66668c4b2abc6a1a18da095961
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: ddd1dfb23b982ef8
+trace_id: tr-daf61a26146d3f31fc377a4c4a15544d
+valid: true

@@ -1,0 +1,22 @@
+assessment_id: a-191f09ce1bba414da7fda1a307ff88d2
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:25:22.523Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T16:25:22.523Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004504'
+  mlflow.assessment.sourceRunId: 1ef3ff5615ab481fa383502b665bdd99
+rationale: The candidate config uses gRPC no-tls, correct IP (192.0.2.182), and port
+  (57500), and encoding self-describing-gpb, which meets the hard requirements. However,
+  the sensor-paths are generic and do not match the expected detailed IOS XR IPv6
+  ND operational paths. The destination-group address-family is incorrectly set to
+  ipv6 instead of ipv4 as in the expectation. Sample interval is correct. Overall,
+  the config partially meets the requirements but sensor-paths and address-family
+  are not aligned with the reference.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: bf3c4c06434308bc
+trace_id: tr-89fa6a688fb5d27bbeb799193f22faf8
+valid: true

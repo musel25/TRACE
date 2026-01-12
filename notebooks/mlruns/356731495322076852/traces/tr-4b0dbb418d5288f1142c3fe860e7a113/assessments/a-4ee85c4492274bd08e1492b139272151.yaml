@@ -1,0 +1,23 @@
+assessment_id: a-4ee85c4492274bd08e1492b139272151
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:50:02.787Z'
+feedback:
+  value: 0.2
+last_update_time: '2026-01-12T15:50:02.787Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004648'
+  mlflow.assessment.sourceRunId: 693284dafe1d43729b5621c8f91a3692
+rationale: The candidate config uses the correct IP (192.0.2.124), port (57500), transport
+  (grpc no-tls), and encoding (self-describing-gpb), which meets the hard requirements.
+  However, the sensor-paths are unrelated to the requested platform inventory and
+  hardware state; they reference telemetry-model-driven subscriptions state instead
+  of inventory and hardware operational data. The sensor-group and destination-group
+  names differ but that is acceptable. The sample interval is correctly set to 120000
+  ms (2 minutes). Due to the incorrect sensor-paths, the config only partially meets
+  the request.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: a0ee89aed453dd32
+trace_id: tr-4b0dbb418d5288f1142c3fe860e7a113
+valid: true

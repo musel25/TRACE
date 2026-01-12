@@ -1,0 +1,24 @@
+assessment_id: a-353fd3d7780449aab19e705253082ca8
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:24:59.488Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T16:24:59.488Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005143999999999999'
+  mlflow.assessment.sourceRunId: 6dfb9aa9bde24523965b569b80be93e7
+rationale: The candidate config correctly uses gRPC no-tls, IP 192.0.2.124, port 57500,
+  and encoding self-describing-gpb, matching the hard requirements. The sample interval
+  is 120000 ms (2 minutes), which is correct. However, the sensor paths differ significantly
+  from the expected ones; the candidate uses Cisco-IOS-XR-telemetry-model-driven-oper
+  paths related to inventory entities and operational status, while the expectation
+  is for platform inventory and hardware state paths from Cisco-IOS-XR-plat-chas-invmgr-oper
+  and Cisco-IOS-XR-platforms-ofa-oper modules. The candidate's sensor paths are related
+  to inventory but not the specific platform and hardware state requested, so partial
+  credit is given.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: ece66fa2fd5166e6
+trace_id: tr-451b4cf36123fdf77656af7229d4beef
+valid: true

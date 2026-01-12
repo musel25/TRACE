@@ -1,0 +1,33 @@
+trace_id,prompt,expected,candidate,score,rationale,system_prompt_variant,vector_db,top_k,temperature,model_chat,model_embed
+tr-a9488d990bbb259911ce5dd2b45ed1f0,Generate Cisco IOS XR 7.0.1 telemetry model-driven configuration for platform inventory + hardware state (FRU inventory entities + operational status). Use gRPC with no TLS. Server 192.0.2.124 port 57500. Use a 2-minute sample interval.,,"telemetry model-driven
+ sensor-group PLATFORM-HW-STATE
+  sensor-path telemetry-model-driven-oper:telemetry-model-driven/platform-inventory/fru
+  sensor-path telemetry-model-driven-oper:telemetry-model-driven/platform-inventory/hardware-state
+ !
+ destination-group DG-GRPC
+  address-family ipv4
+   destination 192.0.2.124
+    port 57500
+    encoding self-describing-gpb
+    protocol grpc no-tls
+ !
+ subscription SUB-PLATFORM-HW-STATE
+  sensor-group-id PLATFORM-HW-STATE sample-interval 120000
+  destination-group-id DG-GRPC
+ !",0.6,"The candidate config correctly uses gRPC with no TLS, the correct IP address (192.0.2.124), and port (57500), and the encoding is self-describing-gpb as required. The sample interval is set to 120000 ms (2 minutes), which matches the request. However, the sensor paths differ significantly from the expected ones; the candidate uses 'telemetry-model-driven-oper:telemetry-model-driven/platform-inventory/fru' and 'hardware-state', whereas the expectation includes specific Cisco IOS XR operational paths for inventory and platform data. The sensor paths in the candidate are related to platform inventory and hardware state but do not match the expected detailed operational paths, which is a moderate discrepancy. Naming and ordering differences are acceptable. Overall, the candidate meets the hard requirements but has only partial alignment on sensor paths.",base,catalog_embeddings_improved,5,0.0,gpt-4.1-mini,text-embedding-3-small
+tr-5c941cf0dc98d2c1e2acf72f9e574f7a,Generate Cisco IOS XR 7.0.1 telemetry configuration to stream IPv6 Neighbor Discovery host addresses (host-addresses/host-address) and ND interface state. Use gRPC no TLS. Collector 192.0.2.182:57500. Sample every 30 seconds.,,"telemetry model-driven
+ sensor-group ND-HOST-STATE
+  sensor-path host-addresses/host-address
+  sensor-path nd/interface-state
+ !
+ destination-group DG-GRPC
+  address-family ipv6
+   destination 192.0.2.182
+    port 57500
+    encoding self-describing-gpb
+    protocol grpc no-tls
+ !
+ subscription SUB-ND-HOST-STATE
+  sensor-group-id ND-HOST-STATE sample-interval 30000
+  destination-group-id DG-GRPC
+ !",0.6,"The candidate config correctly uses gRPC no TLS, the correct IP (192.0.2.182), and port (57500), and sets the sample interval to 30000 ms (30 seconds). However, the sensor-paths are generic and do not match the expected detailed IOS XR IPv6 ND operational paths, which are more specific and include the full YANG model prefixes. The destination address-family is set to ipv6 in the candidate, whereas the expectation uses ipv4, which is a minor discrepancy but notable. Overall, the core transport and destination details are correct, but the sensor-paths are not aligned with the expected IOS XR telemetry paths, reducing the score.",base,catalog_embeddings_improved,5,0.0,gpt-4.1-mini,text-embedding-3-small

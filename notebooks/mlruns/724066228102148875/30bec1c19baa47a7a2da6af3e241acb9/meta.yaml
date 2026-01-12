@@ -1,0 +1,14 @@
+artifact_uri: file:///home/musel/Documents/github/TRACE/notebooks/mlruns/724066228102148875/30bec1c19baa47a7a2da6af3e241acb9/artifacts
+end_time: 1768235659591
+entry_point_name: ''
+experiment_id: '724066228102148875'
+lifecycle_stage: active
+run_id: 30bec1c19baa47a7a2da6af3e241acb9
+run_name: base|cisco-iosxr-telemetry-model_3B|t=0.0|4bit=False
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1768235657551
+status: 4
+tags: []
+user_id: musel

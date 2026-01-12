@@ -1,0 +1,24 @@
+assessment_id: a-2e2d11431b854ba6947f0098bdda1641
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:02:03.145Z'
+feedback:
+  value: 0.8
+last_update_time: '2026-01-12T16:02:03.145Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005675999999999999'
+  mlflow.assessment.sourceRunId: 8fad2d430640486fb4ef1416f726b272
+rationale: The candidate config correctly uses gRPC no-tls, the correct IP (192.0.2.182),
+  port (57500), and encoding (self-describing-gpb). The sample interval is 30000 ms
+  (30 seconds) as requested. Sensor paths are related to IPv6 Neighbor Discovery host
+  addresses and interface state, though the exact YANG model and paths differ from
+  the reference. The candidate uses 'ipv6-nd:ipv6-neighbor/ipv6-neighbor/host-addresses/host-address'
+  and 'ipv6-nd:ipv6-neighbor/ipv6-neighbor/nd-interface-state' which are relevant
+  but not the exact paths in the expectation. This is acceptable as the user did not
+  specify exact model names. Overall, the config meets the hard requirements and sensor
+  paths are relevant, so a high score is given with minor penalty for path differences.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 23b8c1e9392456de
+trace_id: tr-3eb13b9046685257bdd640fb06671ad1
+valid: true

@@ -1,0 +1,24 @@
+assessment_id: a-fb7dca8824ee4e9fb6cea07c39afa9a0
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:24:39.620Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T16:24:39.620Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0004912'
+  mlflow.assessment.sourceRunId: 435d6efb7cdf4090965c123817fa85f8
+rationale: The candidate config correctly uses gRPC with no TLS, the correct IP (192.0.2.124),
+  and port (57500), and sets a 2-minute sample interval (120000 ms). However, the
+  sensor-paths in the candidate are different and less specific compared to the reference,
+  which includes detailed sensor-paths with module names and entities. The candidate's
+  sensor-paths are more generic and do not clearly match the expected platform inventory
+  and hardware state paths. Encoding is 'gpb' in candidate vs 'self-describing-gpb'
+  in reference, which is acceptable but slightly different. Overall, the candidate
+  meets the hard requirements but lacks precise sensor-path matching, resulting in
+  a moderate score.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: a0ee89aed453dd32
+trace_id: tr-4b0dbb418d5288f1142c3fe860e7a113
+valid: true

@@ -1,0 +1,22 @@
+assessment_id: a-83ee90de9042401c9afe3503e9614891
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:09:39.570Z'
+feedback:
+  value: 0.7
+last_update_time: '2026-01-12T16:09:39.570Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.00046'
+  mlflow.assessment.sourceRunId: d820111d6ef04db4ae36027e9502d9f6
+rationale: The candidate config correctly uses gRPC no-tls, IP 192.0.2.182, port 57500,
+  and sample interval 30000 ms as requested. The sensor-paths are related to IPv6
+  neighbor discovery but differ in exact paths and namespaces from the reference,
+  which uses more specific Cisco IOS XR model paths. The candidate's sensor-paths
+  are more generic and may not fully capture the intended data. Naming and ordering
+  differences are acceptable. Overall, the config meets the hard requirements but
+  sensor-paths are not fully aligned with expectations, so partial credit is given.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 6b65a6a48b8148f6
+trace_id: tr-b38a088ca65ed389b74d0fb132e70629
+valid: true

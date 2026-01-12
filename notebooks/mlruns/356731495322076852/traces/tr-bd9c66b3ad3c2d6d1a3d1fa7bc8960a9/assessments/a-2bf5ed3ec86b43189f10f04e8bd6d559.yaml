@@ -1,0 +1,25 @@
+assessment_id: a-2bf5ed3ec86b43189f10f04e8bd6d559
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T15:49:45.981Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T15:49:45.981Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005964'
+  mlflow.assessment.sourceRunId: 9e00b732de9d40008d13f130a269c647
+rationale: The candidate config correctly uses gRPC with no TLS, the correct IP address
+  (192.0.2.124), and port (57500), and the encoding self-describing-gpb, meeting the
+  hard requirements. The sample interval is also set to 120000 ms (2 minutes), which
+  matches the request. However, the sensor paths in the candidate config (inventory-rp:inventory/rp:rp/hardware-r:hardware/hardware-state
+  and hardware-fru) are different from the expected sensor paths (Cisco-IOS-XR-plat-chas-invmgr-oper:inventory/entities,
+  inventory/summary, and Cisco-IOS-XR-platforms-ofa-oper:platforms/platform). These
+  sensor paths are related to platform inventory and hardware state but are not the
+  same as the reference, indicating a partial mismatch. The sensor-group and destination-group
+  names differ but that is acceptable. Due to the sensor-path mismatch, the score
+  is reduced but not zero since the paths are related to the requested data.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 8b9d2434e465e150
+trace_id: tr-bd9c66b3ad3c2d6d1a3d1fa7bc8960a9
+valid: true

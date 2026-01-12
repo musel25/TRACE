@@ -1,0 +1,24 @@
+assessment_id: a-b22444adf87c4063a09daf7a175ab6a1
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:03:01.820Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T16:03:01.820Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005399999999999999'
+  mlflow.assessment.sourceRunId: e91a6687b435426ea525739f99f26691
+rationale: The candidate config correctly uses gRPC no-tls, IP 192.0.2.124, port 57500,
+  and sample interval 120000 ms (2 minutes), matching the hard requirements. However,
+  the sensor-paths used (Cisco-IOS-XR-telemetry-model-driven-oper:telemetry-model-driven/state/inventory
+  and /hardware) do not correspond to the expected platform inventory and hardware
+  state sensor paths (Cisco-IOS-XR-plat-chas-invmgr-oper and Cisco-IOS-XR-platforms-ofa-oper).
+  The sensor paths are related to telemetry model-driven operational state but not
+  specifically to platform inventory and hardware FRU entities as requested. Naming
+  and ordering differences are acceptable, but the sensor paths are clearly not aligned
+  with the request. Therefore, the score is low despite correct transport and addressing.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 5cabcc97663f1c97
+trace_id: tr-956269f0e5d7b8756dadd6c795a76d79
+valid: true

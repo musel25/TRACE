@@ -1,0 +1,25 @@
+assessment_id: a-6364a2201ce844e3a5d6c84f9e522f76
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T16:24:39.642Z'
+feedback:
+  value: 0.3
+last_update_time: '2026-01-12T16:24:39.642Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.0005176'
+  mlflow.assessment.sourceRunId: 435d6efb7cdf4090965c123817fa85f8
+rationale: 'The candidate config uses gRPC no-tls and the correct IP and port, which
+  meets hard requirements. However, it lacks the ''model-driven'' keyword and uses
+  ''ipv6'' instead of ''ipv4'' for the destination address family, which is a notable
+  deviation. The sensor paths are represented differently: the candidate uses sensor-class
+  names rather than explicit sensor-paths, and includes two sensor-groups instead
+  of one with multiple sensor-paths. Sample intervals are set to 30 seconds in the
+  candidate, while the expectation is 30000 ms (30 seconds), which is acceptable.
+  Encoding differs: candidate uses ''gpb'' while expectation uses ''self-describing-gpb''.
+  Overall, the candidate partially matches the requirements but misses key details
+  and uses different sensor-path representations, leading to a low score.'
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: ec1b8ca1f91e1d4c
+trace_id: tr-1ff49b7889463e85759cde66bacfb3d0
+valid: true
