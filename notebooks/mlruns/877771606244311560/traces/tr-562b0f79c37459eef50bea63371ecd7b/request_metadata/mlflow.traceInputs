@@ -1,1 +1,0 @@
-{"prompt": "Create Cisco IOS XR 7.0.1 MDT configuration for hardware inventory/state: stream inventory entities and platform slot instance state. Use gRPC no TLS. Collector 192.0.2.196 port 57500. Sample every 10 minutes."}

@@ -1,1 +1,0 @@
-{"prompt": "Create IOS XR 7.0.1 MDT config for incident response: stream IPv4 ACL telemetry statistics with higher cadence using ipv4-acl-oper sensor paths. Use gRPC no TLS. Server 192.0.2.187 port 57500. Sample every 30 seconds."}
