@@ -1,0 +1,14 @@
+artifact_uri: file:///home/musel/Documents/github/TRACE/notebooks/mlruns/877771606244311560/cf47f8e58563481886e3fd7b80a66d28/artifacts
+end_time: 1768179028150
+entry_point_name: ''
+experiment_id: '877771606244311560'
+lifecycle_stage: active
+run_id: cf47f8e58563481886e3fd7b80a66d28
+run_name: spiffy-kite-123
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1768179025859
+status: 3
+tags: []
+user_id: musel

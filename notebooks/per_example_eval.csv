@@ -1,0 +1,31 @@
+trace_id,prompt,candidate,expected,score,rationale
+tr-568cc69b1064005c3985c3cf3f76be1d,Create IOS XR 7.0.1 MDT config for incident response: stream IPv4 ACL telemetry statistics with higher cadence using ipv4-acl-oper sensor paths. Use gRPC no TLS. Server 192.0.2.187 port 57500. Sample every 30 seconds.,"telemetry model-driven
+ sensor-group IPV4-ACL-STATS
+  sensor-path Cisco-IOS-XR-ipv4-acl-oper:ipv4-acl-and-prefix-list
+ !
+ destination-group DG-GRPC
+  address-family ipv4
+   destination 192.0.2.187
+    port 57500
+    encoding self-describing-gpb
+    protocol grpc no-tls
+ !
+ subscription SUB-IPV4-ACL
+  sensor-group-id IPV4-ACL-STATS sample-interval 30000
+  destination-group-id DG-GRPC
+ !","telemetry model-driven
+ sensor-group ACL-FAST
+  sensor-path Cisco-IOS-XR-ipv4-acl-oper:ipv4-acl-and-prefix-list/access-list-manager/accesses/access/access-list-sequences/access-list-sequence
+  sensor-path Cisco-IOS-XR-ipv4-acl-oper:ipv4-acl-and-prefix-list/prefix-list-manager/prefixes/prefix
+ !
+ subscription SUB-ACLF
+  sensor-group-id ACL-FAST sample-interval 30000
+  destination-group-id DG-ACLF
+ !
+ destination-group DG-ACLF
+  address-family ipv4 192.0.2.187 port 57500
+   encoding self-describing-gpb
+   protocol grpc no-tls
+  !
+ !
+!",0.7,"The candidate config correctly uses the specified IP (192.0.2.187), port (57500), transport protocol (grpc no-tls), and encoding (self-describing-gpb). The sample interval is set to 30000 ms (30 seconds) as requested. However, the sensor-path in the candidate is less specific and does not include the detailed paths for ACL sequences and prefix lists as in the expectation, which are more aligned with the request for IPv4 ACL telemetry statistics. The sensor-group name and destination-group name differ but that is acceptable. Overall, the candidate meets the hard requirements but the sensor-paths are less precise and partially unrelated to the detailed expected paths."

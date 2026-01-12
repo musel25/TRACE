@@ -1,0 +1,19 @@
+assessment_id: a-00c08ff0839e40f38465739b13551241
+assessment_name: expected_response
+create_time: '2026-01-12T00:38:29.493Z'
+expectation:
+  value: "telemetry model-driven\n sensor-group ACL-FAST\n  sensor-path Cisco-IOS-XR-ipv4-acl-oper:ipv4-acl-and-prefix-list/access-list-manager/accesses/access/access-list-sequences/access-list-sequence\n
+    \ sensor-path Cisco-IOS-XR-ipv4-acl-oper:ipv4-acl-and-prefix-list/prefix-list-manager/prefixes/prefix\n
+    !\n subscription SUB-ACLF\n  sensor-group-id ACL-FAST sample-interval 30000\n
+    \ destination-group-id DG-ACLF\n !\n destination-group DG-ACLF\n  address-family
+    ipv4 192.0.2.187 port 57500\n   encoding self-describing-gpb\n   protocol grpc
+    no-tls\n  !\n !\n!"
+last_update_time: '2026-01-12T00:38:29.493Z'
+metadata:
+  mlflow.assessment.sourceRunId: 2de36c3e99f647b09fdc2e4977a382c2
+source:
+  source_id: musel
+  source_type: HUMAN
+span_id: c6a7ee39c4b032cc
+trace_id: tr-d7c524a55304317faf42e12f3838b326
+valid: true

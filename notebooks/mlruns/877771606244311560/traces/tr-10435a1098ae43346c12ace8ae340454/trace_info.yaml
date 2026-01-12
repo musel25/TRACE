@@ -1,0 +1,19 @@
+execution_duration_ms: 0
+request_preview: '{"prompt": "Create IOS XR 7.0.1 MDT config for incident response:
+  stream IPv4 ACL telemetry statistics with higher cadence using ipv4-acl-oper sensor
+  paths. Use gRPC no TLS. Server 192.0.2.187 port 57500. Sample every 30 seconds."}'
+request_time: '2026-01-12T00:41:24.966Z'
+response_preview: '{"response": "telemetry model-driven\n sensor-group ACL-STATISTICS\n  sensor-path
+  ipv4-acl-oper:ipv4-acl-and-prefix-list/acl-name\n  sensor-path ipv4-acl-oper:ipv4-acl-and-prefix-list/application-id\n  sensor-path
+  ipv4-acl-oper:ipv4-acl-and-prefix-list:destination-address\n  sensor-path ipv4-acl-oper:ipv4-acl-and-prefix-list:destination-address-mask\n  sensor-path
+  ipv4-acl-oper:ipv4-acl-and-prefix-list:destination-operator\n  sensor-path ipv4-acl-oper:ipv4-acl-and-prefix-list:destination-port-group\n  sensor-path
+  ipv4-acl-oper:ipv4-acl-and-prefix-list:destination-port1\n  sensor-path ipv4-acl-oper:ipv4-acl-and-prefix-list:destination-port2\n  sensor-path
+  ipv4-acl-oper:ipv4-acl-and-prefix-list:destination-prefix-group\n  sensor-path ipv4-acl-oper:ipv4-acl-and-prefix-list:dscp\n  sensor-path
+  ipv4-acl-oper:ipv4-acl-and-prefix-list:dscp-operator\n  sensor-path ipv4-acl-oper:ipv4-acl-and-prefix-list:dscp-present\n  sensor-path
+  ipv4-acl-oper:ipv4-acl-and-prefix-list:dscp2\n  sensor-path i...'
+state: OK
+trace_id: tr-10435a1098ae43346c12ace8ae340454
+trace_location:
+  mlflow_experiment:
+    experiment_id: '877771606244311560'
+  type: MLFLOW_EXPERIMENT

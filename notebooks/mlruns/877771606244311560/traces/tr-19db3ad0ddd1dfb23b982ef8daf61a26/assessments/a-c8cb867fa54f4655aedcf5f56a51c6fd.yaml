@@ -1,0 +1,23 @@
+assessment_id: a-c8cb867fa54f4655aedcf5f56a51c6fd
+assessment_name: xr_config_quality_score
+create_time: '2026-01-12T00:36:47.240Z'
+feedback:
+  value: 0.6
+last_update_time: '2026-01-12T00:36:47.240Z'
+metadata:
+  mlflow.assessment.judgeCost: '0.00047999999999999996'
+  mlflow.assessment.sourceRunId: 226557b7a3184523b38986d51cff33c5
+rationale: The candidate config correctly uses the specified IP (192.0.2.187), port
+  (57500), transport protocol (grpc no-tls), and encoding (self-describing-gpb), meeting
+  the hard requirements. The sample interval is set to 30000 ms (30 seconds) as requested.
+  However, the sensor-path used (ipv4-acl-oper/statistics) is less specific and does
+  not match the detailed sensor-paths in the expectation, which include specific Cisco
+  IOS XR model paths for IPv4 ACL and prefix lists. The candidate's sensor-path is
+  related but less precise, so it partially meets the requirement. Naming and ordering
+  differences are acceptable.
+source:
+  source_id: openai:/gpt-4.1-mini
+  source_type: LLM_JUDGE
+span_id: 47294739614ff3d7
+trace_id: tr-19db3ad0ddd1dfb23b982ef8daf61a26
+valid: true
