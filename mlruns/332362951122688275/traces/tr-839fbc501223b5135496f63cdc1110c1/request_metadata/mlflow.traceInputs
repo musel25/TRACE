@@ -1,1 +1,0 @@
-{"prompt": "Generate telemetry model-driven configuration for Optics protocol on IOS XR. Server: 192.0.2.50, port: 10000, protocol: grpc no-tls, encoding: self-describing-gpb."}

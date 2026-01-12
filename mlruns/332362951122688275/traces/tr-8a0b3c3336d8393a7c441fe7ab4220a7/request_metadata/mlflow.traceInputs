@@ -1,1 +1,0 @@
-{"prompt": "Create IOS XR telemetry configuration to stream ISIS data to 192.0.2.10 port 57500 using grpc tls."}

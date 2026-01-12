@@ -1,1 +1,0 @@
-{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration for ACL operational counters (hit counts per ACE and interface bindings). Use gRPC with no TLS. Server 192.0.2.114 port 57500. Choose relevant sensor-paths."}

@@ -1,1 +1,0 @@
-{"prompt": "Generate Cisco IOS XR 7.0.1 telemetry configuration for LACP/EtherChannel operational monitoring (bundles, members, counters). Use gRPC with no TLS. Telemetry server is 192.0.2.118 on port 57500. Choose relevant sensor-paths."}
